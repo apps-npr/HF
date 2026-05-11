@@ -14,7 +14,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 1000px;
+            max-width: 1050px;
             margin: auto;
             background: #fff;
             padding: 30px;
@@ -74,26 +74,36 @@
             display: flex;
             flex-direction: column;
             margin-bottom: 15px;
-            padding: 10px;
+            padding: 15px;
             background: #f9f9f9;
             border-radius: 5px;
-            border-left: 3px solid #bdc3c7;
+            border-left: 4px solid #bdc3c7;
+        }
+        .med-row.danger {
+            border-left-color: #e74c3c;
+            background: #fdf2f2;
         }
         .med-row select {
             margin-top: 5px;
             width: 100%;
         }
         .info-box {
-            font-size: 0.85em;
+            font-size: 0.9em;
             color: #555;
             background-color: #f1f8ff;
-            padding: 10px;
+            padding: 15px;
             border-radius: 5px;
             border: 1px solid #cce5ff;
             margin-bottom: 15px;
         }
-        .info-box strong {
-            color: #0056b3;
+        .evidence-box {
+            font-size: 0.9em;
+            color: #2c3e50;
+            background-color: #e8f6e9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #a5d6a7;
+            margin-bottom: 15px;
         }
         button {
             display: block;
@@ -114,27 +124,17 @@
         }
         #resultArea {
             margin-top: 30px;
-            padding: 20px;
+            padding: 25px;
             background: #fff;
             border: 2px solid #27ae60;
             border-radius: 8px;
             display: none;
         }
-        .alert-text {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-        .warn-text {
-            color: #d35400;
-            font-weight: bold;
-        }
-        .recommendation-list {
-            margin: 0;
-            padding-left: 20px;
-        }
-        .recommendation-list li {
-            margin-bottom: 8px;
-        }
+        .alert-text { color: #e74c3c; font-weight: bold; }
+        .success-text { color: #27ae60; font-weight: bold; }
+        .highlight { background-color: #fff9c4; padding: 2px 4px; border-radius: 3px; }
+        .recommendation-list { margin: 0; padding-left: 20px; }
+        .recommendation-list li { margin-bottom: 12px; line-height: 1.5; }
         .dose-table {
             width: 100%;
             border-collapse: collapse;
@@ -143,29 +143,32 @@
         }
         .dose-table th, .dose-table td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 10px;
             text-align: left;
+            vertical-align: top;
         }
-        .dose-table th {
-            background-color: #34495e;
-            color: white;
-        }
+        .dose-table th { background-color: #34495e; color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>🏥 ระบบคัดกรองคลินิกหัวใจล้มเหลว (Pharmacist Assessment)</h1>
+
+    <div class="evidence-box">
+        <h3>🌟 เป้าหมายการรักษา HFrEF: The Quadruple Therapy</h3>
+        <p>การให้ยาหลักครบทั้ง 4 กลุ่ม (ARNi/ACEi/ARB, Beta Blockers, MRAs, SGLT2i) ร่วมกันตั้งแต่แรก <strong>ลดอัตราการเสียชีวิตจากทุกสาเหตุได้ถึง 73%</strong> (เมื่อเทียบกับกลุ่มที่ไม่ได้รับการรักษา) แนะนำให้เริ่มและปรับยา (Titration) ทุก 1-2 สัปดาห์จนถึง Target dose หรือขนาดสูงสุดที่ทนได้</p>
+    </div>
     
     <div class="section">
-        <h2>1. ข้อมูลทางคลินิก (Clinical Parameters)</h2>
+        <h2>1. ข้อมูลทางคลินิกและข้อควรระวัง (Clinical Parameters & Precautions)</h2>
         <div class="grid">
             <div>
-                <label for="lvef">LVEF (%)</label>
+                <label>LVEF (%)</label>
                 <input type="number" id="lvef" placeholder="เช่น 35">
             </div>
             <div>
-                <label for="nyha">NYHA Class</label>
+                <label>NYHA Class</label>
                 <select id="nyha">
                     <option value="">-- เลือก --</option>
                     <option value="1">Class I</option>
@@ -175,38 +178,31 @@
                 </select>
             </div>
             <div>
-                <label for="sbp">Systolic BP (mmHg)</label>
+                <label>Systolic BP (mmHg)</label>
                 <input type="number" id="sbp" placeholder="ความดันตัวบน">
             </div>
             <div>
-                <label for="hr">Heart Rate (bpm)</label>
-                <input type="number" id="hr" placeholder="ขณะพัก">
+                <label>Heart Rate (bpm)</label>
+                <input type="number" id="hr" placeholder="ขณะพัก (Target < 70)">
             </div>
             <div>
-                <label for="egfr">eGFR (mL/min/1.73m²)</label>
+                <label>eGFR (mL/min/1.73m²)</label>
                 <input type="number" id="egfr" placeholder="ล่าสุด">
             </div>
             <div>
-                <label for="potassium">Potassium (mmol/L)</label>
+                <label>Potassium (mEq/L)</label>
                 <input type="number" id="potassium" step="0.1" placeholder="ล่าสุด">
             </div>
         </div>
-
-        <h3 style="margin-top:20px; background:none; padding:0; border:none;">ภาวะอื่นๆ ที่ต้องเฝ้าระวัง</h3>
-        <div class="info-box">
-            <p><strong>💧 ภาวะคั่งน้ำ (Congestion):</strong> มีอาการเหนื่อยนอนราบไม่ได้ (Orthopnea), หอบเหนื่อยกลางคืน (PND), บวมกดบุ๋ม (Pitting edema), ฟังปอดพบ Crepitation หรือ JVP โป่งพอง</p>
-            <p><strong>🩸 ขาดธาตุเหล็ก (Iron deficiency):</strong> ประเมินจาก Serum Ferritin &lt; 100 ng/mL หรือ Ferritin 100-299 ng/mL ร่วมกับ TSAT &lt; 20% (สำคัญเพื่อเพิ่มคุณภาพชีวิต)</p>
-            <p><strong>🤰 ตั้งครรภ์/วางแผนตั้งครรภ์:</strong> ยาหลักรักษา HF (RAASi, MRA, SGLT2i, Ivabradine) ทำให้ทารกวิรูป เป็น <u>ข้อห้ามใช้เด็ดขาด</u></p>
-        </div>
         
-        <div class="grid">
+        <div class="grid" style="margin-top: 15px;">
             <div class="checkbox-group">
                 <input type="checkbox" id="congestion">
                 <label for="congestion">มีภาวะคั่งน้ำ (Congestion / Edema)</label>
             </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="iron_def">
-                <label for="iron_def">ภาวะขาดธาตุเหล็ก (Iron deficiency)</label>
+                <label for="iron_def">ภาวะขาดธาตุเหล็ก (Ferritin &lt; 100 หรือ TSAT &lt; 20%)</label>
             </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="pregnant">
@@ -216,144 +212,143 @@
     </div>
 
     <div class="section">
-        <h2>2. รายการยาปัจจุบันและขนาดยา (Current Medications & Doses)</h2>
+        <h2>2. Medication Reconciliation (รายการยาที่ใช้อยู่)</h2>
         <div class="grid">
             <div class="med-row">
                 <label>1. RAASi Group</label>
-                <div class="checkbox-group"><input type="checkbox" id="arni"> ARNi (Entresto)</div>
-                <div class="checkbox-group"><input type="checkbox" id="acei"> ACEi (Enalapril/Ramipril)</div>
-                <div class="checkbox-group"><input type="checkbox" id="arb"> ARB (Losartan/Valsartan)</div>
+                <div class="checkbox-group"><input type="checkbox" id="arni"> ARNi (Sacubitril/Valsartan)</div>
+                <div class="checkbox-group"><input type="checkbox" id="acei"> ACEi (Enalapril/Lisinopril/Ramipril)</div>
+                <div class="checkbox-group"><input type="checkbox" id="arb"> ARB (Valsartan/Losartan/Candesartan)</div>
                 <select id="raasi_dose">
-                    <option value="none">-- ระบุระดับขนาดยาที่กินอยู่ --</option>
-                    <option value="start">Starting / Low Dose (พิจารณาไทเทรตเพิ่ม)</option>
-                    <option value="mid">Medium Dose (พิจารณาไทเทรตเพิ่ม)</option>
-                    <option value="target">Target / Max Tolerated Dose (ถึงเป้าแล้ว)</option>
+                    <option value="none">-- ระบุระดับขนาดยา --</option>
+                    <option value="naive">ไม่เคยได้รับยาในกลุ่มนี้มาก่อน</option>
+                    <option value="start">Starting / Low Dose</option>
+                    <option value="target">Target / Max Tolerated Dose</option>
                 </select>
             </div>
             
             <div class="med-row">
                 <label>2. Beta Blocker</label>
-                <div class="checkbox-group"><input type="checkbox" id="bb"> Bisoprolol / Carvedilol / Metoprolol</div>
+                <div class="checkbox-group"><input type="checkbox" id="bb"> Bisoprolol / Carvedilol / Metoprolol suc.</div>
                 <select id="bb_dose">
-                    <option value="none">-- ระบุระดับขนาดยาที่กินอยู่ --</option>
-                    <option value="start">Starting / Low Dose (พิจารณาไทเทรตเพิ่ม)</option>
-                    <option value="mid">Medium Dose (พิจารณาไทเทรตเพิ่ม)</option>
-                    <option value="target">Target / Max Tolerated Dose (ถึงเป้าแล้ว)</option>
+                    <option value="none">-- ระบุระดับขนาดยา --</option>
+                    <option value="start">Starting / Low Dose</option>
+                    <option value="target">Target / Max Tolerated Dose</option>
                 </select>
             </div>
 
             <div class="med-row">
                 <label>3. MRA</label>
-                <div class="checkbox-group"><input type="checkbox" id="mra"> Aldactone (Spironolactone)</div>
+                <div class="checkbox-group"><input type="checkbox" id="mra"> Spironolactone / Eplerenone</div>
                 <select id="mra_dose">
-                    <option value="none">-- ระบุระดับขนาดยาที่กินอยู่ --</option>
-                    <option value="start">12.5 - 25 mg / วัน (พิจารณาไทเทรตเพิ่ม)</option>
-                    <option value="target">25 - 50 mg / วัน (Target Dose แล้ว)</option>
+                    <option value="none">-- ระบุระดับขนาดยา --</option>
+                    <option value="start">Starting Dose (เช่น Spiro 12.5-25mg)</option>
+                    <option value="target">Target Dose (เช่น Spiro 25-50mg)</option>
                 </select>
             </div>
 
             <div class="med-row">
-                <label>4. SGLT2i</label>
-                <div class="checkbox-group"><input type="checkbox" id="sglt2i"> Empagliflozin / Dapagliflozin</div>
-                <span style="font-size: 0.8em; color: #7f8c8d; margin-top:5px;">* SGLT2i ใช้ 10 mg/วัน คงที่ ไม่ต้อง Titrate</span>
-            </div>
-
-            <div class="med-row">
-                <label>ยาขับปัสสาวะ (Diuretics)</label>
+                <label>4. SGLT2i & Others</label>
+                <div class="checkbox-group"><input type="checkbox" id="sglt2i"> Empagliflozin / Dapagliflozin 10mg</div>
+                <div class="checkbox-group"><input type="checkbox" id="ivabradine"> Ivabradine</div>
                 <div class="checkbox-group"><input type="checkbox" id="loop"> Loop Diuretics (Furosemide)</div>
-                <div class="checkbox-group"><input type="checkbox" id="thiazide"> Thiazide (HCTZ)</div>
             </div>
 
-            <div class="med-row" style="border-left-color: #e74c3c;">
-                <label class="alert-text">ยาที่อาจทำให้ HF แย่ลง (ควรเลี่ยง)</label>
+            <div class="med-row danger">
+                <label class="alert-text">⛔ ยา/อาหารเสริมที่ต้องระวัง (Deprescribing Check)</label>
                 <div class="checkbox-group"><input type="checkbox" id="nsaid"> NSAIDs / COX-2 inhibitors</div>
-                <div class="checkbox-group"><input type="checkbox" id="ndhp"> Nondihydropyridine CCBs (Diltiazem/Verapamil)</div>
-                <div class="checkbox-group"><input type="checkbox" id="doxazosin"> Doxazosin</div>
+                <div class="checkbox-group"><input type="checkbox" id="ndhp"> Non-DHP CCB (Diltiazem / Verapamil)</div>
+                <div class="checkbox-group"><input type="checkbox" id="tzd"> TZDs (Pioglitazone) / Saxagliptin</div>
+                <div class="checkbox-group"><input type="checkbox" id="vite"> Vitamin E / สมุนไพรกระตุ้นหัวใจ</div>
+                <div class="checkbox-group"><input type="checkbox" id="coq10"> CoQ10 (ไม่มีข้อบ่งชี้ชัดเจน)</div>
             </div>
         </div>
     </div>
 
     <div class="section">
-        <h2>3. ประวัติการรับวัคซีน (Vaccination Status)</h2>
-        <div class="info-box">
-            วัคซีนช่วยลดอัตราการนอนโรงพยาบาลและการเสียชีวิต (Class 2a) แนะนำให้ในผู้ป่วย HF ทุกรายที่ไม่มีข้อห้าม
-        </div>
+        <h2>3. การให้ความรู้ผู้ป่วยและวัคซีน (Education & Vaccines)</h2>
         <div class="grid">
-            <div class="checkbox-group">
-                <input type="checkbox" id="flu_vaccine">
-                <label for="flu_vaccine">ไข้หวัดใหญ่ (Influenza - ฉีดของปีนี้แล้ว)</label>
+            <div class="med-row">
+                <label>📌 Sick Day Rules & Lifestyle</label>
+                <div class="checkbox-group"><input type="checkbox" id="ed_sickday"> สอนการหยุดยาขับปัสสาวะ/SGLT2i เมื่อท้องเสีย/ขาดน้ำ</div>
+                <div class="checkbox-group"><input type="checkbox" id="ed_weight"> สอนชั่งน้ำหนักทุกเช้า/สังเกตอาการบวม</div>
+                <div class="checkbox-group"><input type="checkbox" id="ed_sodium"> จำกัดโซเดียม &lt; 2-3 กรัม/วัน</div>
             </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="pneumo_vaccine">
-                <label for="pneumo_vaccine">ปอดอักเสบ (Pneumococcal PCV20 หรือ 15+23)</label>
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="covid_vaccine">
-                <label for="covid_vaccine">โควิด-19 (COVID-19 - อัปเดตล่าสุด)</label>
+            <div class="med-row">
+                <label>💉 ประวัติวัคซีน (ลดอัตราตาย Class 2a)</label>
+                <div class="checkbox-group"><input type="checkbox" id="flu_vaccine"> ไข้หวัดใหญ่ (Influenza)</div>
+                <div class="checkbox-group"><input type="checkbox" id="pneumo_vaccine"> ปอดอักเสบ (Pneumococcal)</div>
+                <div class="checkbox-group"><input type="checkbox" id="covid_vaccine"> โควิด-19 / RSV</div>
             </div>
         </div>
     </div>
 
-    <button onclick="generateRecommendations()">🔄 ประมวลผลข้อเสนอแนะสำหรับแพทย์</button>
+    <button onclick="generateRecommendations()">🔄 ประมวลผลข้อเสนอแนะทางคลินิก</button>
 
     <div id="resultArea">
-        <h2 style="text-align:center; color:#27ae60;">📋 รายงานข้อเสนอแนะทางคลินิก (Clinical Recommendations)</h2>
+        <h2 style="text-align:center; color:#27ae60;">📋 รายงานข้อเสนอแนะทางคลินิก (Pharmacist Intervention)</h2>
         <div id="recContent"></div>
     </div>
 
     <div class="section" style="margin-top: 30px;">
-        <h2>ตารางอ้างอิงขนาดยา (GDMT Target Doses)</h2>
+        <h2>📚 ข้อมูลประสิทธิภาพและเป้าหมายขนาดยา (GDMT Reference - 2022 AHA/ACC)</h2>
         <table class="dose-table">
             <tr>
-                <th>กลุ่มยา</th>
-                <th>ยา (Medication)</th>
-                <th>Starting Dose</th>
-                <th>Target Dose</th>
+                <th width="20%">กลุ่มยา</th>
+                <th width="35%">ประสิทธิภาพ / ระดับคำแนะนำ</th>
+                <th width="45%">ขนาดยา (Starting -> Target Dose)</th>
             </tr>
             <tr>
-                <td>ARNi</td>
-                <td>Sacubitril/Valsartan (Entresto)</td>
-                <td>24/26 mg หรือ 49/51 mg วันละ 2 ครั้ง</td>
-                <td>97/103 mg วันละ 2 ครั้ง</td>
+                <td><strong>ARNi</strong><br>(Sacubitril/Valsartan)</td>
+                <td><strong>Class 1, Level A:</strong> ลด Mortality และ Hospitalization 20% (เหนือกว่า ACEI)<br><em>*หากเปลี่ยนจาก ACEI ต้องหยุดยา 36 ชม. ป้องกัน Angioedema</em></td>
+                <td>
+                    - <strong>ทั่วไป:</strong> 49/51 mg วันละ 2 ครั้ง<br>
+                    - <strong>ขนาดต่ำ (24/26 mg วันละ 2 ครั้ง):</strong> สำหรับผู้ที่ไม่เคยได้ ACEI/ARB มาก่อน, เคยได้ ACEI ขนาดต่ำ, eGFR &lt; 30, หรือเสี่ยง BP ต่ำ<br>
+                    - <strong>เป้าหมาย:</strong> 97/103 mg วันละ 2 ครั้ง
+                </td>
             </tr>
             <tr>
-                <td rowspan="2">ACEi/ARB</td>
-                <td>Enalapril</td>
-                <td>2.5 mg วันละ 2 ครั้ง</td>
-                <td>10 - 20 mg วันละ 2 ครั้ง</td>
+                <td><strong>ACEi / ARB</strong></td>
+                <td><strong>Class 1, Level A:</strong> ทางเลือกเมื่อใช้ ARNi ไม่ได้</td>
+                <td>
+                    - <strong>Enalapril:</strong> 2.5 mg BID -> 10-20 mg BID<br>
+                    - <strong>Losartan:</strong> 25-50 mg QD -> 150 mg QD<br>
+                    - <strong>Valsartan:</strong> 20-40 mg BID -> 160 mg BID
+                </td>
             </tr>
             <tr>
-                <td>Losartan</td>
-                <td>25 - 50 mg วันละ 1 ครั้ง</td>
-                <td>150 mg วันละ 1 ครั้ง</td>
+                <td><strong>Beta-blocker</strong></td>
+                <td><strong>Class 1, Level A:</strong> ลด Mortality ชัดเจน บรรเทาอาการ</td>
+                <td>
+                    - <strong>Bisoprolol:</strong> 1.25 mg QD -> 10 mg QD<br>
+                    - <strong>Carvedilol:</strong> 3.125 mg BID -> 25 mg BID (50mg ถ้า นน.&gt;85kg)<br>
+                    - <strong>Metoprolol suc:</strong> 12.5-25 mg QD -> 200 mg QD
+                </td>
             </tr>
             <tr>
-                <td rowspan="3">Beta-blocker</td>
-                <td>Bisoprolol</td>
-                <td>1.25 mg วันละ 1 ครั้ง</td>
-                <td>10 mg วันละ 1 ครั้ง</td>
+                <td><strong>MRA</strong></td>
+                <td><strong>Class 1, Level A:</strong> ลด Mortality และ Sudden Cardiac Death</td>
+                <td>
+                    - <strong>Spironolactone:</strong> 12.5-25 mg QD -> 25-50 mg QD<br>
+                    - <strong>Eplerenone:</strong> 25 mg QD -> 50 mg QD<br>
+                    <em>*ห้ามเริ่มถ้า eGFR &lt; 30 หรือ K &gt; 5.0</em>
+                </td>
             </tr>
             <tr>
-                <td>Carvedilol</td>
-                <td>3.125 mg วันละ 2 ครั้ง</td>
-                <td>25 mg วันละ 2 ครั้ง (50mg ถ้า นน.>85kg)</td>
+                <td><strong>SGLT2i</strong></td>
+                <td><strong>Class 1, Level A:</strong> ลด Hospitalization ได้ถึง 30% (ไม่ต้องเป็นเบาหวานก็ใช้ได้)</td>
+                <td>
+                    - <strong>Dapagliflozin / Empagliflozin:</strong> 10 mg วันละ 1 ครั้ง<br>
+                    <em>*ไม่มีการ Titration (เริ่มและคงที่ได้เลย)</em>
+                </td>
             </tr>
             <tr>
-                <td>Metoprolol succinate</td>
-                <td>12.5 - 25 mg วันละ 1 ครั้ง</td>
-                <td>200 mg วันละ 1 ครั้ง</td>
-            </tr>
-            <tr>
-                <td>MRA</td>
-                <td>Spironolactone (Aldactone)</td>
-                <td>12.5 - 25 mg วันละ 1 ครั้ง</td>
-                <td>25 - 50 mg วันละ 1 ครั้ง</td>
-            </tr>
-            <tr>
-                <td>SGLT2i</td>
-                <td>Empagliflozin / Dapagliflozin</td>
-                <td>10 mg วันละ 1 ครั้ง</td>
-                <td>10 mg วันละ 1 ครั้ง (ไม่มี Titration)</td>
+                <td><strong>Ivabradine</strong></td>
+                <td><strong>Class 2a:</strong> ลด HF Hospitalization</td>
+                <td>
+                    - <strong>เริ่ม:</strong> 5 mg วันละ 2 ครั้ง -> <strong>เป้าหมาย:</strong> 7.5 mg วันละ 2 ครั้ง<br>
+                    <em>*ใช้เมื่อได้ BB เต็มที่แล้ว แต่ HR ยัง &gt;= 70 (Sinus)</em>
+                </td>
             </tr>
         </table>
     </div>
@@ -386,195 +381,160 @@
         const mraDose = document.getElementById('mra_dose').value;
 
         const onSGLT2I = document.getElementById('sglt2i').checked;
-
+        const onIvabradine = document.getElementById('ivabradine').checked;
         const onLoop = document.getElementById('loop').checked;
 
+        // Harmful Meds Check
         const onNSAID = document.getElementById('nsaid').checked;
         const onNDHP = document.getElementById('ndhp').checked;
-        const onDoxazosin = document.getElementById('doxazosin').checked;
+        const onTZD = document.getElementById('tzd').checked;
+        const onVitE = document.getElementById('vite').checked;
+        const onCoQ10 = document.getElementById('coq10').checked;
 
+        // Ed & Vaccines
+        const edSickDay = document.getElementById('ed_sickday').checked;
+        const edWeight = document.getElementById('ed_weight').checked;
+        const edSodium = document.getElementById('ed_sodium').checked;
         const fluVaccine = document.getElementById('flu_vaccine').checked;
         const pneumoVaccine = document.getElementById('pneumo_vaccine').checked;
         const covidVaccine = document.getElementById('covid_vaccine').checked;
 
-        // --- 2. Initialize Category Arrays ---
         let alerts = [];
         let volumeMgt = [];
         let gdmt = [];
+        let education = [];
         let vaccines = [];
-        let others = [];
 
-        // --- 3. Logic: Alerts & Contraindications ---
+        // --- 2. Logic: Pregnancy & Contraception ---
         if (pregnant) {
             let pregContra = [];
             if (hasRAASi) pregContra.push("RAASi (ARNi/ACEi/ARB)");
             if (onMRA) pregContra.push("MRA");
             if (onSGLT2I) pregContra.push("SGLT2i");
-            if (pregContra.length > 0) {
-                alerts.push(`ผู้ป่วยตั้งครรภ์ ห้ามใช้ยา: ${pregContra.join(', ')} (Class 3: Harm ทำให้ทารกวิรูป) -> <b>แนะนำให้หยุดยาทันที</b> และเปลี่ยนเป็น Beta-blocker หรือ Hydralazine+Nitrates`);
-            } else {
-                alerts.push(`ผู้ป่วยตั้งครรภ์ -> <b>ห้ามเริ่มยา</b> กลุ่ม RAASi, MRA, SGLT2i, Ivabradine โดยเด็ดขาด`);
-            }
+            if (onIvabradine) pregContra.push("Ivabradine");
+            
+            alerts.push(`<strong>[Class 3: Harm] ผู้ป่วยตั้งครรภ์/วางแผนตั้งครรภ์:</strong> ยาหลัก GDMT ทำให้ทารกวิรูป ${pregContra.length>0 ? 'พบการใช้: <u>'+pregContra.join(', ')+'</u> -> <b>ต้องสั่งหยุดยาทันที</b>' : '<b>ห้ามเริ่มยา</b> กลุ่ม RAASi, MRA, SGLT2i, Ivabradine เด็ดขาด'}`);
+            alerts.push(`ทางเลือกการรักษาในหญิงตั้งครรภ์: พิจารณาใช้ <b>Metoprolol succinate</b> และ <b>Hydralazine + Nitrates</b> แทน`);
+            alerts.push(`<em>หมายเหตุคุมกำเนิด: หลีกเลี่ยงยาคุมที่มี Estrogen หากผู้ป่วยมีความเสี่ยงลิ่มเลือดสูง</em>`);
         }
 
-        if (onNSAID || onNDHP || onDoxazosin) {
-            let harmfulMeds = [];
-            if (onNSAID) harmfulMeds.push("NSAIDs / COX-2");
-            if (onNDHP) harmfulMeds.push("Nondihydropyridine CCBs (Diltiazem/Verapamil)");
-            if (onDoxazosin) harmfulMeds.push("Doxazosin");
-            alerts.push(`พบการใช้ยาที่อาจทำให้ HF แย่ลง (Class 3: Harm): ${harmfulMeds.join(', ')} -> <b>พิจารณาหยุดยาหรือปรับเปลี่ยน</b>`);
+        // --- 3. Logic: Deprescribing Harmful Drugs ---
+        let harmfulMeds = [];
+        if (onNSAID) harmfulMeds.push("NSAIDs/COX-2 (ทำให้คั่งน้ำ/ต้านยาขับปัสสาวะ/ไตวาย)");
+        if (onNDHP) harmfulMeds.push("Non-DHP CCB เช่น Verapamil/Diltiazem (กดการบีบตัวหัวใจ)");
+        if (onTZD) harmfulMeds.push("TZDs/Saxagliptin (เพิ่มความเสี่ยง HFกำเริบ/คั่งน้ำ)");
+        if (onVitE) harmfulMeds.push("Vitamin E / สมุนไพรกระตุ้น (เพิ่มความเสี่ยง HF / เป็นพิษต่อหัวใจ)");
+        if (harmfulMeds.length > 0) {
+            alerts.push(`<strong>[Class 3: Harm] พบการใช้ยาที่ทำให้อาการแย่ลง:</strong> ${harmfulMeds.join('<br>  - ')}<br>-> <b>แนะนำให้หยุดยาทันที (Deprescribing)</b>`);
+        }
+        if (onCoQ10) {
+            alerts.push(`<strong>[No Benefit] CoQ10:</strong> แนวทางเวชปฏิบัติระบุว่าไม่มีหลักฐานประโยชน์ชัดเจน ไม่แนะนำให้ผู้ป่วยซื้อทานเองเพื่อหวังผลรักษา HF`);
         }
 
-        // --- 4. Logic: Volume Management (Diuretics) ---
+        // --- 4. Logic: Volume Management ---
         if (congestion) {
-            if (onLoop) {
-                volumeMgt.push(`ผู้ป่วยยังมีภาวะคั่งน้ำ (Congestion) -> <b>พิจารณาปรับเพิ่มขนาดยา Loop Diuretic</b> (Up-titrate Furosemide)`);
-            } else {
-                volumeMgt.push(`ผู้ป่วยมีภาวะคั่งน้ำ (Congestion) -> <b>พิจารณาเริ่มยา Loop Diuretic</b> เพื่อลดอาการ`);
-            }
+            if (onLoop) volumeMgt.push(`ผู้ป่วยมีภาวะคั่งน้ำ -> <b>พิจารณาปรับเพิ่มยา Loop Diuretic</b> ประเมิน Urine output ที่ 6 ชม. (เป้าหมาย Decongestion)`);
+            else volumeMgt.push(`ผู้ป่วยมีภาวะคั่งน้ำ -> <b>พิจารณาเริ่มยา Loop Diuretic (Furosemide)</b> เพื่อบรรเทาอาการทันที`);
         } else {
-            if (onLoop && sbp < 100) {
-                volumeMgt.push(`ผู้ป่วยไม่มีภาวะคั่งน้ำแล้ว (Euvolemic) และ SBP ค่อนข้างต่ำ (< 100 mmHg) -> <b>พิจารณาลดขนาดยา Loop Diuretic ลง</b> เพื่อให้สามารถปรับเพิ่มยา GDMT กลุ่มอื่นได้`);
-            } else {
-                volumeMgt.push(`ผู้ป่วยไม่มีภาวะคั่งน้ำ (Euvolemic) -> <b>คงขนาดยาขับปัสสาวะเดิม</b> หรือปรับลดตามความเหมาะสม`);
-            }
+            if (onLoop && sbp < 100) volumeMgt.push(`ผู้ป่วยไม่มีภาวะคั่งน้ำและ SBP ค่อนข้างต่ำ (< 100) -> <b>พิจารณาลดขนาดยา Loop Diuretic</b> เพื่อเปิดทางให้ปรับเพิ่มยา GDMT`);
         }
 
-        // --- 5. Logic: GDMT Optimization ---
+        // --- 5. Logic: GDMT Optimization (HFrEF focus) ---
         if (isNaN(lvef)) {
-            gdmt.push("<i>กรุณาระบุค่า LVEF เพื่อดูคำแนะนำการปรับยาที่แม่นยำ</i>");
-        } else {
-            let hfType = (lvef <= 40) ? "HFrEF" : (lvef >= 50) ? "HFpEF" : "HFmrEF";
-            gdmt.push(`<b>Diagnosis: ${hfType} (LVEF ${lvef}%)</b>`);
-
+            gdmt.push("<i>กรุณาระบุค่า LVEF เพื่อประเมินยา 4 เสาหลัก (Quadruple Therapy)</i>");
+        } else if (lvef <= 40) {
             if (!pregnant) {
-                // SGLT2i (All HF types)
+                // SGLT2i
                 if (!onSGLT2I) {
-                    if (isNaN(egfr)) {
-                        gdmt.push(`• <b>SGLT2i:</b> แนะนำให้เริ่ม (Empa/Dapa 10 mg/วัน) *กรุณาตรวจ eGFR ยืนยันว่า > 20`);
-                    } else if (egfr > 20) {
-                        gdmt.push(`• <b>SGLT2i:</b> eGFR > 20 สามารถเริ่มได้ทันที (Empa/Dapa 10 mg/วัน ไม่ต้องไทเทรต)`);
-                    } else {
-                        gdmt.push(`• <b>SGLT2i:</b> eGFR <= 20 <u>ยังไม่แนะนำให้เริ่ม</u> ตามแนวทางปัจจุบัน`);
-                    }
+                    if (egfr > 20 || isNaN(egfr)) gdmt.push(`• <b>SGLT2i:</b> แนะนำเริ่มยา (Empagliflozin/Dapagliflozin 10 mg/วัน) <span class="highlight">Class 1: ลด Hospitalization ถึง 30% โดยไม่ต้อง Titrate</span>`);
+                    else gdmt.push(`• <b>SGLT2i:</b> eGFR <= 20 <u>ยังไม่แนะนำให้เริ่ม</u> ตามแนวทางปัจจุบัน`);
                 }
 
-                // HFrEF & HFmrEF Logic
-                if (lvef <= 49) {
-                    // RAASi
-                    if (!hasRAASi) {
-                        if (sbp > 90 || isNaN(sbp)) {
-                            gdmt.push(`• <b>RAASi:</b> พิจารณาเริ่ม <b>ARNi (Entresto)</b> เป็นตัวเลือกลำดับแรก (หรือ ACEi/ARB หากมีข้อจำกัด)`);
-                        } else {
-                            gdmt.push(`• <b>RAASi:</b> SBP ต่ำ (<= 90) ให้ระวังการเริ่มหรือปรับยา RAASi`);
-                        }
-                    } else {
-                        if ((onACEI || onARB) && (nyha === 2 || nyha === 3)) {
-                            gdmt.push(`• <b>RAASi:</b> พิจารณา <b>เปลี่ยน ACEi/ARB เป็น ARNi</b> เพื่อประสิทธิภาพที่ดีขึ้น (ต้องหยุด ACEi เดิม 36 ชม.)`);
-                        }
-                        if (raasiDose === 'start' || raasiDose === 'mid') {
-                            if (sbp >= 100 || isNaN(sbp)) {
-                                gdmt.push(`• <b>RAASi:</b> ขนาดยายังไม่ถึงเป้า และความดันรับได้ -> <b>พิจารณา Up-titrate</b> สู่ Target dose`);
-                            } else {
-                                gdmt.push(`• <b>RAASi:</b> ขนาดยังไม่ถึงเป้า แต่ SBP < 100 -> <b>Hold dose ไว้ก่อน</b>`);
-                            }
-                        }
-                    }
+                // RAASi
+                if (!hasRAASi) {
+                    let arniDose = (egfr < 30 || raasiDose === 'naive') ? '24/26 mg bid (เนื่องจาก eGFR<30 หรือไม่เคยได้ ACEI มาก่อน)' : '49/51 mg bid';
+                    gdmt.push(`• <b>ARNi:</b> แนะนำเริ่มยา (Sacubitril/Valsartan) ขนาด ${arniDose} <span class="highlight">Class 1: ลด Mortality ได้ดีกว่า ACEI</span>`);
+                } else if (onACEI && (nyha === 2 || nyha === 3)) {
+                    gdmt.push(`• <b>ARNi:</b> พิจารณา <b>เปลี่ยน ACEI เป็น ARNi</b> เพื่อลด Mortality เพิ่มเติม <span class="highlight">ข้อควรระวัง: ต้องหยุด ACEI 36 ชั่วโมงก่อนเริ่ม ARNi ป้องกัน Angioedema</span>`);
+                } else if ((raasiDose === 'start' || raasiDose === 'mid') && (sbp >= 100 || isNaN(sbp))) {
+                    gdmt.push(`• <b>RAASi Titration:</b> ขนาดยายังไม่ถึงเป้า และความดันรับได้ -> <b>ปรับเพิ่มทุก 2-4 สัปดาห์</b> สู่ Target dose (ARNi: 97/103 mg bid)`);
+                }
 
-                    // Beta Blocker
-                    if (!onBB) {
-                        if (!congestion) {
-                            gdmt.push(`• <b>Beta-blocker:</b> ผู้ป่วยน้ำไม่เกิน (Dry) -> <b>พิจารณาเริ่มยา</b> (Bisoprolol, Carvedilol, หรือ Metoprolol succinate)`);
-                        } else {
-                            gdmt.push(`• <b>Beta-blocker:</b> ผู้ป่วยยังมีภาวะคั่งน้ำ -> <u>ชะลอการเริ่มยาไว้ก่อน</u> จนกว่าจะ Euvolemic`);
-                        }
-                    } else {
-                        if (bbDose === 'start' || bbDose === 'mid') {
-                            if (congestion) {
-                                gdmt.push(`• <b>Beta-blocker:</b> มีภาวะคั่งน้ำ -> <b>ห้าม Up-titrate ยาในช่วงนี้</b>`);
-                            } else if (hr >= 60 || isNaN(hr)) {
-                                gdmt.push(`• <b>Beta-blocker:</b> น้ำไม่เกินและ HR >= 60 -> <b>พิจารณา Up-titrate</b> สู่ Target dose`);
-                            } else {
-                                gdmt.push(`• <b>Beta-blocker:</b> HR < 60 -> <b>Hold dose ไว้ก่อน</b> ไม่ควรเพิ่มยา`);
-                            }
-                        }
-                    }
+                // Beta Blocker
+                if (!onBB) {
+                    if (!congestion) gdmt.push(`• <b>Beta-blocker:</b> น้ำไม่เกิน (Dry) -> <b>แนะนำเริ่มยา</b> (Bisoprolol/Carvedilol/Metoprolol suc.) <span class="highlight">Class 1: ลด Mortality ชัดเจน</span>`);
+                    else gdmt.push(`• <b>Beta-blocker:</b> <u>ชะลอการเริ่มยา</u> เนื่องจากผู้ป่วยยังมีภาวะคั่งน้ำ (Congestion)`);
+                } else if (bbDose === 'start' || bbDose === 'mid') {
+                    if (congestion) gdmt.push(`• <b>Beta-blocker:</b> <u>ห้ามปรับเพิ่มยา (Hold titration)</u> เนื่องจากยังมีภาวะคั่งน้ำ`);
+                    else if (hr >= 60 || isNaN(hr)) gdmt.push(`• <b>Beta-blocker Titration:</b> น้ำไม่เกินและ HR >= 60 -> <b>ปรับเพิ่มยา</b> สู่ Target dose (เช่น Bisoprolol 10 mg)`);
+                }
 
-                    // MRA
-                    if (!onMRA) {
-                        if (isNaN(egfr) || isNaN(potassium)) {
-                            gdmt.push(`• <b>MRA:</b> ขาดข้อมูล eGFR หรือ Potassium เพื่อพิจารณาเริ่ม Aldactone`);
-                        } else if (egfr > 30 && potassium < 5.0) {
-                            gdmt.push(`• <b>MRA:</b> eGFR > 30 และ K < 5.0 -> <b>พิจารณาเริ่มยา</b> (Aldactone 12.5-25 mg/วัน)`);
-                        } else {
-                            gdmt.push(`• <b>MRA:</b> eGFR <= 30 หรือ K >= 5.0 -> <u>ห้ามเริ่มยา</u>`);
-                        }
-                    } else {
-                        if (potassium >= 5.5) {
-                            alerts.push(`ระดับ K >= 5.5 -> <b>ห้ามใช้/พิจารณาหยุด MRA ทันที</b> (Class 3: Harm)`);
-                        } else if (mraDose === 'start' && potassium < 5.0 && egfr > 30) {
-                            gdmt.push(`• <b>MRA:</b> ขนาดยายังไม่ถึงเป้า (และ K < 5.0) -> <b>พิจารณา Up-titrate</b> สู่ Target dose (25-50 mg/วัน)`);
-                        }
-                    }
+                // MRA
+                if (!onMRA) {
+                    if (egfr > 30 && potassium < 5.0) gdmt.push(`• <b>MRA:</b> แนะนำเริ่ม Spironolactone 12.5-25 mg/วัน <span class="highlight">Class 1: ลด Mortality</span>`);
+                    else if (egfr <= 30 || potassium >= 5.0) gdmt.push(`• <b>MRA:</b> <u>ห้ามเริ่มยา</u> เนื่องจาก eGFR <= 30 หรือ K >= 5.0`);
+                } else {
+                    if (potassium >= 5.5) alerts.push(`<strong>[Alert] MRA & Hyperkalemia:</strong> K ล่าสุด >= 5.5 -> <b>ต้องหยุดยา MRA ทันที</b>`);
+                    else if (mraDose === 'start' && potassium < 5.0 && egfr > 30) gdmt.push(`• <b>MRA Titration:</b> พิจารณาปรับเพิ่มเป็น 25-50 mg/วัน`);
+                }
 
-                    // Ivabradine Check
-                    if (onBB && bbDose === 'target' && hr >= 70 && (nyha === 2 || nyha === 3)) {
-                        gdmt.push(`• <b>Ivabradine:</b> ได้ BB max dose แต่ HR >= 70 bpm (และเป็น Sinus) -> <b>พิจารณาเริ่ม Ivabradine</b>`);
-                    }
+                // Ivabradine Check
+                if (!onIvabradine && onBB && bbDose === 'target' && hr >= 70 && (nyha === 2 || nyha === 3)) {
+                    gdmt.push(`• <b>Ivabradine:</b> ได้ BB Max dose แต่ HR ยัง >= 70 (Sinus) -> <b>พิจารณาเริ่ม Ivabradine (เริ่ม 5mg bid -> เป้าหมาย 7.5mg bid)</b> <span class="highlight">Class 2a</span>`);
                 }
             } else {
-                gdmt.push("<i>(ข้ามคำแนะนำ GDMT ส่วนใหญ่เนื่องจากข้อห้ามในสตรีมีครรภ์)</i>");
+                gdmt.push("<i>(ข้ามคำแนะนำการไทเทรต GDMT เนื่องจากข้อห้ามในสตรีมีครรภ์)</i>");
             }
+        } else {
+            gdmt.push(`<b>Diagnosis: HFpEF/HFmrEF</b> -> เน้น SGLT2i (Class 1) และคุมอาการบวมด้วย Diuretics`);
         }
 
-        // --- 6. Logic: Vaccines ---
-        if (!fluVaccine) vaccines.push(`• <b>ไข้หวัดใหญ่ (Influenza):</b> แนะนำให้ฉีดซ้ำทุกปี`);
-        if (!pneumoVaccine) vaccines.push(`• <b>ปอดอักเสบ (Pneumococcal):</b> แนะนำให้ PCV20 1 เข็ม (หรือ PCV15 แล้วตามด้วย PPSV23 ห่าง 1 ปี)`);
-        if (!covidVaccine) vaccines.push(`• <b>โควิด-19 (COVID-19):</b> แนะนำให้อัปเดตวัคซีนตามฤดูกาล`);
-        
-        if (vaccines.length === 0) {
-            vaccines.push(`• ผู้ป่วยได้รับวัคซีนครบถ้วนตามเกณฑ์แล้ว`);
-        }
-
-        // --- 7. Logic: Others ---
+        // --- 6. Logic: Iron Deficiency ---
         if (ironDef) {
-            others.push(`• <b>ภาวะขาดธาตุเหล็ก:</b> พิจารณาให้ <b>Intravenous iron replacement</b> (เช่น FCM) เพื่อปรับปรุง Functional status (Class 2a)`);
+            gdmt.push(`• <b>Iron Deficiency:</b> มีภาวะขาดธาตุเหล็ก -> พิจารณาให้ <b>IV Iron (ธาตุเหล็กแบบฉีด)</b> <span class="highlight">Class 2a: เพิ่ม Quality of Life (ธาตุเหล็กแบบกินไม่ช่วยเนื่องจากลำไส้บวม)</span>`);
         }
 
-        // --- 8. Render HTML Content ---
+        // --- 7. Logic: Patient Education (5 ส) ---
+        if (!edSickDay) education.push(`• <b>Sick Day Rules:</b> ให้คำแนะนำการหยุดยาขับปัสสาวะ/SGLT2i ชั่วคราวเมื่อท้องเสียหรือขาดน้ำ ป้องกันไตวาย`);
+        if (!edWeight) education.push(`• <b>Self-Monitoring:</b> แนะนำชั่งน้ำหนักทุกเช้า ถ้าน้ำหนักขึ้น > 2kg ใน 3 วัน หรือเริ่มนอนราบไม่ได้ ให้รีบมาพบแพทย์`);
+        if (!edSodium) education.push(`• <b>Diet:</b> แนะนำจำกัดโซเดียม < 2-3 กรัม/วัน (และจำกัดน้ำเฉพาะในรายที่บวมมากหรือ Na ต่ำ)`);
+        
+        if (education.length === 0) education.push(`✅ ให้คำแนะนำผู้ป่วย (Patient Education) ครบถ้วนแล้ว`);
+
+        // --- 8. Logic: Vaccines ---
+        if (!fluVaccine) vaccines.push(`• <b>ไข้หวัดใหญ่ (Influenza):</b> แนะนำให้ฉีดประจำปี`);
+        if (!pneumoVaccine) vaccines.push(`• <b>ปอดอักเสบ (Pneumococcal):</b> แนะนำให้วัคซีน (PCV20 หรือ PCV15+PPSV23)`);
+        if (!covidVaccine) vaccines.push(`• <b>โควิด-19 / RSV:</b> แนะนำให้อัปเดตตามฤดูกาล`);
+        
+        if (vaccines.length === 0) vaccines.push(`✅ ผู้ป่วยได้รับวัคซีนครบถ้วน (ช่วยลดโอกาสกำเริบและอัตราตาย - Class 2a)`);
+
+        // --- 9. Render HTML ---
         let htmlContent = "";
 
         if (alerts.length > 0) {
-            htmlContent += `<h3>🚨 ข้อควรระวัง / ข้อห้าม (Precautions & Contraindications)</h3><ul class="recommendation-list">`;
+            htmlContent += `<h3>🚨 Safety Gatekeeper (ระวังอันตรายจากยา)</h3><ul class="recommendation-list">`;
             alerts.forEach(item => htmlContent += `<li><span class="alert-text">${item}</span></li>`);
             htmlContent += `</ul>`;
         }
 
-        htmlContent += `<h3>💧 การจัดการสารน้ำ (Volume Management)</h3><ul class="recommendation-list">`;
+        htmlContent += `<h3>💊 การปรับยาหลัก 4 เสาหลัก (GDMT Optimization)</h3><ul class="recommendation-list">`;
+        if (gdmt.length > 0) gdmt.forEach(item => htmlContent += `<li>${item}</li>`);
+        else htmlContent += `<li>ไม่มีข้อเสนอแนะเพิ่มเติมสำหรับยาส่วนนี้</li>`;
+        htmlContent += `</ul>`;
+
         if (volumeMgt.length > 0) {
+            htmlContent += `<h3>💧 การจัดการสารน้ำ (Volume & Diuretics)</h3><ul class="recommendation-list">`;
             volumeMgt.forEach(item => htmlContent += `<li>${item}</li>`);
-        } else {
-            htmlContent += `<li>ประเมินและปรับยาขับปัสสาวะตามอาการของผู้ป่วย</li>`;
-        }
-        htmlContent += `</ul>`;
-
-        htmlContent += `<h3>💊 การปรับยาหลัก (GDMT Optimization)</h3><ul class="recommendation-list">`;
-        if (gdmt.length > 0) {
-            gdmt.forEach(item => htmlContent += `<li>${item}</li>`);
-        } else {
-            htmlContent += `<li>ไม่มีข้อเสนอแนะเพิ่มเติมสำหรับยาส่วนนี้</li>`;
-        }
-        htmlContent += `</ul>`;
-
-        htmlContent += `<h3>💉 วัคซีน (Vaccines)</h3><ul class="recommendation-list">`;
-        vaccines.forEach(item => htmlContent += `<li>${item}</li>`);
-        htmlContent += `</ul>`;
-
-        if (others.length > 0) {
-            htmlContent += `<h3>🩸 ภาวะอื่นๆ (Other Considerations)</h3><ul class="recommendation-list">`;
-            others.forEach(item => htmlContent += `<li>${item}</li>`);
             htmlContent += `</ul>`;
         }
+
+        htmlContent += `<h3>🗣️ การให้ความรู้ผู้ป่วย (Patient Education)</h3><ul class="recommendation-list">`;
+        education.forEach(item => htmlContent += `<li>${item}</li>`);
+        htmlContent += `</ul>`;
+
+        htmlContent += `<h3>💉 วัคซีนลดความรุนแรงของโรค (Vaccinations)</h3><ul class="recommendation-list">`;
+        vaccines.forEach(item => htmlContent += `<li>${item}</li>`);
+        htmlContent += `</ul>`;
 
         document.getElementById('recContent').innerHTML = htmlContent;
         document.getElementById('resultArea').style.display = 'block';
