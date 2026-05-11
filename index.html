@@ -14,7 +14,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 1050px;
+            max-width: 1100px;
             margin: auto;
             background: #fff;
             padding: 30px;
@@ -132,9 +132,12 @@
         }
         .alert-text { color: #e74c3c; font-weight: bold; }
         .success-text { color: #27ae60; font-weight: bold; }
-        .highlight { background-color: #fff9c4; padding: 2px 4px; border-radius: 3px; }
+        .highlight { background-color: #fff9c4; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
+        .pearl-text { color: #16a085; font-size: 0.95em; display: block; margin-top: 5px; padding-left: 25px;}
+        .action-text { color: #2980b9; font-weight: bold; }
         .recommendation-list { margin: 0; padding-left: 20px; }
-        .recommendation-list li { margin-bottom: 12px; line-height: 1.5; }
+        .recommendation-list li { margin-bottom: 15px; line-height: 1.6; padding-bottom: 10px; border-bottom: 1px dashed #eee;}
+        .recommendation-list li:last-child { border-bottom: none; }
         .dose-table {
             width: 100%;
             border-collapse: collapse;
@@ -157,7 +160,7 @@
 
     <div class="evidence-box">
         <h3>🌟 เป้าหมายการรักษา HFrEF: The Quadruple Therapy</h3>
-        <p>การให้ยาหลักครบทั้ง 4 กลุ่ม (ARNi/ACEi/ARB, Beta Blockers, MRAs, SGLT2i) ร่วมกันตั้งแต่แรก <strong>ลดอัตราการเสียชีวิตจากทุกสาเหตุได้ถึง 73%</strong> (เมื่อเทียบกับกลุ่มที่ไม่ได้รับการรักษา) แนะนำให้เริ่มและปรับยา (Titration) ทุก 1-2 สัปดาห์จนถึง Target dose หรือขนาดสูงสุดที่ทนได้</p>
+        <p>การให้ยาหลักครบทั้ง 4 กลุ่ม (ARNi/ACEi/ARB, Beta Blockers, MRAs, SGLT2i) ร่วมกันตั้งแต่แรก <strong>สามารถลดอัตราการเสียชีวิตจากทุกสาเหตุ (All-cause mortality) ได้ถึง 73%</strong> (เมื่อเทียบกับกลุ่มที่ไม่ได้รับการรักษา) แนะนำให้เริ่มยาให้ครบโดยเร็ว และปรับยา (Titration) ทุก 1-2 สัปดาห์จนถึง Target dose หรือขนาดสูงสุดที่ทนได้</p>
     </div>
     
     <div class="section">
@@ -270,7 +273,7 @@
         <div class="grid">
             <div class="med-row">
                 <label>📌 Sick Day Rules & Lifestyle</label>
-                <div class="checkbox-group"><input type="checkbox" id="ed_sickday"> สอนการหยุดยาขับปัสสาวะ/SGLT2i เมื่อท้องเสีย/ขาดน้ำ</div>
+                <div class="checkbox-group"><input type="checkbox" id="ed_sickday"> สอนการหยุดยาเมื่อท้องเสีย/ขาดน้ำ (Sick Day Rules)</div>
                 <div class="checkbox-group"><input type="checkbox" id="ed_weight"> สอนชั่งน้ำหนักทุกเช้า/สังเกตอาการบวม</div>
                 <div class="checkbox-group"><input type="checkbox" id="ed_sodium"> จำกัดโซเดียม &lt; 2-3 กรัม/วัน</div>
             </div>
@@ -286,69 +289,65 @@
     <button onclick="generateRecommendations()">🔄 ประมวลผลข้อเสนอแนะทางคลินิก</button>
 
     <div id="resultArea">
-        <h2 style="text-align:center; color:#27ae60;">📋 รายงานข้อเสนอแนะทางคลินิก (Pharmacist Intervention)</h2>
+        <h2 style="text-align:center; color:#27ae60;">📋 รายงานและแผนการดูแล (Pharmacist Intervention Plan)</h2>
         <div id="recContent"></div>
     </div>
 
     <div class="section" style="margin-top: 30px;">
-        <h2>📚 ข้อมูลประสิทธิภาพและเป้าหมายขนาดยา (GDMT Reference - 2022 AHA/ACC)</h2>
+        <h2>📚 ข้อมูลขนาดยาอ้างอิง (GDMT Reference - 2022 AHA/ACC)</h2>
         <table class="dose-table">
             <tr>
                 <th width="20%">กลุ่มยา</th>
-                <th width="35%">ประสิทธิภาพ / ระดับคำแนะนำ</th>
-                <th width="45%">ขนาดยา (Starting -> Target Dose)</th>
+                <th width="40%">ขนาดยา (Starting -> Target Dose)</th>
+                <th width="40%">เกร็ดความรู้ (Clinical Pearls)</th>
             </tr>
             <tr>
                 <td><strong>ARNi</strong><br>(Sacubitril/Valsartan)</td>
-                <td><strong>Class 1, Level A:</strong> ลด Mortality และ Hospitalization 20% (เหนือกว่า ACEI)<br><em>*หากเปลี่ยนจาก ACEI ต้องหยุดยา 36 ชม. ป้องกัน Angioedema</em></td>
                 <td>
                     - <strong>ทั่วไป:</strong> 49/51 mg วันละ 2 ครั้ง<br>
-                    - <strong>ขนาดต่ำ (24/26 mg วันละ 2 ครั้ง):</strong> สำหรับผู้ที่ไม่เคยได้ ACEI/ARB มาก่อน, เคยได้ ACEI ขนาดต่ำ, eGFR &lt; 30, หรือเสี่ยง BP ต่ำ<br>
+                    - <strong>เริ่มขนาดต่ำ (24/26 mg วันละ 2 ครั้ง):</strong> ใช้เมื่อ eGFR &lt; 30, ไม่เคยได้ ACEI มาก่อน, หรือเสี่ยง BP ต่ำ<br>
                     - <strong>เป้าหมาย:</strong> 97/103 mg วันละ 2 ครั้ง
                 </td>
+                <td>หากผู้ป่วยกิน ACEI อยู่ <strong>ต้องหยุดยาเดิมอย่างน้อย 36 ชั่วโมง</strong> ก่อนเริ่ม ARNi เสมอเพื่อป้องกันภาวะหลอดลมบวม (Angioedema)</td>
             </tr>
             <tr>
                 <td><strong>ACEi / ARB</strong></td>
-                <td><strong>Class 1, Level A:</strong> ทางเลือกเมื่อใช้ ARNi ไม่ได้</td>
                 <td>
                     - <strong>Enalapril:</strong> 2.5 mg BID -> 10-20 mg BID<br>
                     - <strong>Losartan:</strong> 25-50 mg QD -> 150 mg QD<br>
-                    - <strong>Valsartan:</strong> 20-40 mg BID -> 160 mg BID
                 </td>
+                <td>เป็นทางเลือกเมื่อผู้ป่วยไม่สามารถใช้ ARNi ได้ (เช่น สิทธิการรักษาไม่ครอบคลุม หรือมีข้อห้าม) ประสิทธิภาพในการลด Mortality น้อยกว่า ARNi เล็กน้อย</td>
             </tr>
             <tr>
                 <td><strong>Beta-blocker</strong></td>
-                <td><strong>Class 1, Level A:</strong> ลด Mortality ชัดเจน บรรเทาอาการ</td>
                 <td>
                     - <strong>Bisoprolol:</strong> 1.25 mg QD -> 10 mg QD<br>
                     - <strong>Carvedilol:</strong> 3.125 mg BID -> 25 mg BID (50mg ถ้า นน.&gt;85kg)<br>
                     - <strong>Metoprolol suc:</strong> 12.5-25 mg QD -> 200 mg QD
                 </td>
+                <td>ต้องเริ่มและปรับยาเมื่อผู้ป่วย <strong>น้ำไม่เกิน (Euvolemic)</strong> เท่านั้น การปรับยาช่วงที่มี Congestion จะทำให้หัวใจบีบตัวแย่ลงเฉียบพลัน</td>
             </tr>
             <tr>
                 <td><strong>MRA</strong></td>
-                <td><strong>Class 1, Level A:</strong> ลด Mortality และ Sudden Cardiac Death</td>
                 <td>
                     - <strong>Spironolactone:</strong> 12.5-25 mg QD -> 25-50 mg QD<br>
                     - <strong>Eplerenone:</strong> 25 mg QD -> 50 mg QD<br>
-                    <em>*ห้ามเริ่มถ้า eGFR &lt; 30 หรือ K &gt; 5.0</em>
                 </td>
+                <td><strong>ห้ามเริ่มยา</strong> หาก eGFR &lt; 30 หรือ Potassium &gt; 5.0 mEq/L เพราะเสี่ยงต่อ Hyperkalemia รุนแรง</td>
             </tr>
             <tr>
                 <td><strong>SGLT2i</strong></td>
-                <td><strong>Class 1, Level A:</strong> ลด Hospitalization ได้ถึง 30% (ไม่ต้องเป็นเบาหวานก็ใช้ได้)</td>
                 <td>
                     - <strong>Dapagliflozin / Empagliflozin:</strong> 10 mg วันละ 1 ครั้ง<br>
-                    <em>*ไม่มีการ Titration (เริ่มและคงที่ได้เลย)</em>
                 </td>
+                <td><strong>ไม่จำเป็นต้อง Titrate ยา</strong> ให้ขนาดเดียวจบ มีฤทธิ์ขับปัสสาวะอ่อนๆ ระวังการใช้ร่วมกับ Loop diuretic ในช่วงแรก อาจต้องปรับลดยาขับน้ำลงหากคนไข้ Dry</td>
             </tr>
             <tr>
                 <td><strong>Ivabradine</strong></td>
-                <td><strong>Class 2a:</strong> ลด HF Hospitalization</td>
                 <td>
                     - <strong>เริ่ม:</strong> 5 mg วันละ 2 ครั้ง -> <strong>เป้าหมาย:</strong> 7.5 mg วันละ 2 ครั้ง<br>
-                    <em>*ใช้เมื่อได้ BB เต็มที่แล้ว แต่ HR ยัง &gt;= 70 (Sinus)</em>
                 </td>
+                <td>ใช้ได้เฉพาะในผู้ป่วยที่เป็น <strong>Sinus Rhythm</strong> ที่ได้ยา Beta-blocker ขนาดสูงสุดแล้วแต่ Heart Rate ยัง &ge; 70 bpm ยานี้ไม่ช่วยเรื่อง Mortality แต่ช่วยลดการนอน รพ.</td>
             </tr>
         </table>
     </div>
@@ -356,7 +355,6 @@
 
 <script>
     function generateRecommendations() {
-        // --- 1. Get Values ---
         const lvef = parseFloat(document.getElementById('lvef').value);
         const nyha = parseInt(document.getElementById('nyha').value);
         const sbp = parseFloat(document.getElementById('sbp').value);
@@ -384,14 +382,12 @@
         const onIvabradine = document.getElementById('ivabradine').checked;
         const onLoop = document.getElementById('loop').checked;
 
-        // Harmful Meds Check
         const onNSAID = document.getElementById('nsaid').checked;
         const onNDHP = document.getElementById('ndhp').checked;
         const onTZD = document.getElementById('tzd').checked;
         const onVitE = document.getElementById('vite').checked;
         const onCoQ10 = document.getElementById('coq10').checked;
 
-        // Ed & Vaccines
         const edSickDay = document.getElementById('ed_sickday').checked;
         const edWeight = document.getElementById('ed_weight').checked;
         const edSodium = document.getElementById('ed_sodium').checked;
@@ -405,7 +401,7 @@
         let education = [];
         let vaccines = [];
 
-        // --- 2. Logic: Pregnancy & Contraception ---
+        // --- 1. PREGNANCY CHECK (CRITICAL SAFETY) ---
         if (pregnant) {
             let pregContra = [];
             if (hasRAASi) pregContra.push("RAASi (ARNi/ACEi/ARB)");
@@ -413,117 +409,168 @@
             if (onSGLT2I) pregContra.push("SGLT2i");
             if (onIvabradine) pregContra.push("Ivabradine");
             
-            alerts.push(`<strong>[Class 3: Harm] ผู้ป่วยตั้งครรภ์/วางแผนตั้งครรภ์:</strong> ยาหลัก GDMT ทำให้ทารกวิรูป ${pregContra.length>0 ? 'พบการใช้: <u>'+pregContra.join(', ')+'</u> -> <b>ต้องสั่งหยุดยาทันที</b>' : '<b>ห้ามเริ่มยา</b> กลุ่ม RAASi, MRA, SGLT2i, Ivabradine เด็ดขาด'}`);
-            alerts.push(`ทางเลือกการรักษาในหญิงตั้งครรภ์: พิจารณาใช้ <b>Metoprolol succinate</b> และ <b>Hydralazine + Nitrates</b> แทน`);
-            alerts.push(`<em>หมายเหตุคุมกำเนิด: หลีกเลี่ยงยาคุมที่มี Estrogen หากผู้ป่วยมีความเสี่ยงลิ่มเลือดสูง</em>`);
+            alerts.push(`<strong>[Class 3: Harm] ผู้ป่วยตั้งครรภ์ หรือ วางแผนตั้งครรภ์</strong>
+                <span class="pearl-text">👉 <span class="action-text">Action:</span> ${pregContra.length>0 ? 'พบการใช้ยาอันตราย <u>'+pregContra.join(', ')+'</u> <b>ให้แพทย์หยุดยาทันที</b>' : '<b>ห้ามเริ่มยา</b> กลุ่ม RAASi, MRA, SGLT2i, Ivabradine โดยเด็ดขาด'}</span>
+                <span class="pearl-text">👉 <em>Rationale:</em> ยาเหล่านี้มีผลทำให้ทารกวิรูป (Teratogenic) เช่น ไตวายแต่กำเนิด น้ำคร่ำน้อย (Oligohydramnios) และปอดไม่พัฒนา</span>
+                <span class="pearl-text">👉 <em>Alternative:</em> พิจารณาใช้ <b>Metoprolol succinate</b> และ <b>Hydralazine + Nitrates</b> ในการคุมอาการแทน รวมถึงหลีกเลี่ยงยาคุมกำเนิดชนิด Estrogen หากเสี่ยงลิ่มเลือด</span>`);
         }
 
-        // --- 3. Logic: Deprescribing Harmful Drugs ---
+        // --- 2. DEPRESCRIBING (HARMFUL DRUGS) ---
         let harmfulMeds = [];
-        if (onNSAID) harmfulMeds.push("NSAIDs/COX-2 (ทำให้คั่งน้ำ/ต้านยาขับปัสสาวะ/ไตวาย)");
-        if (onNDHP) harmfulMeds.push("Non-DHP CCB เช่น Verapamil/Diltiazem (กดการบีบตัวหัวใจ)");
-        if (onTZD) harmfulMeds.push("TZDs/Saxagliptin (เพิ่มความเสี่ยง HFกำเริบ/คั่งน้ำ)");
-        if (onVitE) harmfulMeds.push("Vitamin E / สมุนไพรกระตุ้น (เพิ่มความเสี่ยง HF / เป็นพิษต่อหัวใจ)");
+        if (onNSAID) harmfulMeds.push("<b>NSAIDs / COX-2 inhibitors:</b> ทำให้เกิดการคั่งของน้ำและโซเดียม ต้านฤทธิ์ยาขับปัสสาวะ และเสี่ยงไตวาย (ควรเลี่ยงไปใช้ Paracetamol หรือ Tramadol ระยะสั้น)");
+        if (onNDHP) harmfulMeds.push("<b>Non-DHP CCB (Verapamil / Diltiazem):</b> มีฤทธิ์กดการบีบตัวของหัวใจ (Negative Inotrope) ห้ามใช้ใน HFrEF");
+        if (onTZD) harmfulMeds.push("<b>TZDs (Pioglitazone) / Saxagliptin:</b> เพิ่มความเสี่ยงทำให้ภาวะหัวใจล้มเหลวกำเริบ และทำให้บวมน้ำ");
+        if (onVitE) harmfulMeds.push("<b>Vitamin E / สมุนไพรกระตุ้นระบบประสาท:</b> มีหลักฐานว่าอาจส่งผลเสียต่อกล้ามเนื้อหัวใจ (Potential harm)");
+        
         if (harmfulMeds.length > 0) {
-            alerts.push(`<strong>[Class 3: Harm] พบการใช้ยาที่ทำให้อาการแย่ลง:</strong> ${harmfulMeds.join('<br>  - ')}<br>-> <b>แนะนำให้หยุดยาทันที (Deprescribing)</b>`);
+            alerts.push(`<strong>[Class 3: Harm] พบการใช้ยาที่ทำให้อาการหัวใจล้มเหลวแย่ลง</strong>
+                <span class="pearl-text">👉 <span class="action-text">Action:</span> <b>แนะนำให้หยุดยาทันที (Deprescribing)</b></span>
+                <span class="pearl-text">👉 <em>Meds:</em><br> - ${harmfulMeds.join('<br> - ')}</span>`);
         }
         if (onCoQ10) {
-            alerts.push(`<strong>[No Benefit] CoQ10:</strong> แนวทางเวชปฏิบัติระบุว่าไม่มีหลักฐานประโยชน์ชัดเจน ไม่แนะนำให้ผู้ป่วยซื้อทานเองเพื่อหวังผลรักษา HF`);
+            alerts.push(`<strong>[No Benefit] การใช้อาหารเสริม Coenzyme Q10</strong>
+                <span class="pearl-text">👉 <em>Rationale:</em> แนวทางเวชปฏิบัติปัจจุบัน (AHA/ACC 2022) ระบุชัดเจนว่า <b>ไม่มีประโยชน์ในการรักษา HF</b> ไม่แนะนำให้ผู้ป่วยเสียเงินซื้อทานเองเพื่อหวังผลการรักษา</span>`);
         }
 
-        // --- 4. Logic: Volume Management ---
+        // --- 3. VOLUME MANAGEMENT ---
         if (congestion) {
-            if (onLoop) volumeMgt.push(`ผู้ป่วยมีภาวะคั่งน้ำ -> <b>พิจารณาปรับเพิ่มยา Loop Diuretic</b> ประเมิน Urine output ที่ 6 ชม. (เป้าหมาย Decongestion)`);
-            else volumeMgt.push(`ผู้ป่วยมีภาวะคั่งน้ำ -> <b>พิจารณาเริ่มยา Loop Diuretic (Furosemide)</b> เพื่อบรรเทาอาการทันที`);
+            volumeMgt.push(`<strong>พบภาวะคั่งน้ำ (Congestion / Edema)</strong>
+                <span class="pearl-text">👉 <span class="action-text">Action:</span> พิจารณา ${onLoop ? '<b>ปรับเพิ่มขนาดยา</b>' : '<b>เริ่มยา</b>'} <b>Loop Diuretic (เช่น Furosemide)</b> เพื่อบรรเทาอาการทันที (Class 1)</span>
+                <span class="pearl-text">👉 <em>Monitoring:</em> ประเมินการตอบสนองอย่างรวดเร็ว (Urine output ที่ 6 ชม. หรือ Spot urine sodium ที่ 2 ชม.) หากไม่ตอบสนองให้ปรับเพิ่มขนาดยาเป็น 2 เท่า</span>`);
         } else {
-            if (onLoop && sbp < 100) volumeMgt.push(`ผู้ป่วยไม่มีภาวะคั่งน้ำและ SBP ค่อนข้างต่ำ (< 100) -> <b>พิจารณาลดขนาดยา Loop Diuretic</b> เพื่อเปิดทางให้ปรับเพิ่มยา GDMT`);
+            if (onLoop && sbp < 100) {
+                volumeMgt.push(`<strong>ผู้ป่วยไม่มีภาวะคั่งน้ำ (Euvolemic) และความดันค่อนข้างต่ำ (SBP < 100)</strong>
+                <span class="pearl-text">👉 <span class="action-text">Action:</span> <b>พิจารณาลดขนาดยา Loop Diuretic ลง</b> </span>
+                <span class="pearl-text">👉 <em>Rationale:</em> เพื่อยกระดับความดันโลหิต เปิดทางให้เภสัชกรสามารถปรับเพิ่มยา 4 เสาหลัก (GDMT) ที่มีผลยืดอายุขัยได้มากขึ้น</span>`);
+            }
         }
 
-        // --- 5. Logic: GDMT Optimization (HFrEF focus) ---
+        // --- 4. GDMT OPTIMIZATION ---
         if (isNaN(lvef)) {
-            gdmt.push("<i>กรุณาระบุค่า LVEF เพื่อประเมินยา 4 เสาหลัก (Quadruple Therapy)</i>");
+            gdmt.push("<i>⚠️ กรุณาระบุค่า LVEF เพื่อใช้ประเมิน Guideline-Directed Medical Therapy (GDMT)</i>");
         } else if (lvef <= 40) {
+            
+            let gdmtCount = (hasRAASi ? 1 : 0) + (onBB ? 1 : 0) + (onMRA ? 1 : 0) + (onSGLT2I ? 1 : 0);
+            if (!pregnant && gdmtCount < 4) {
+                gdmt.push(`<strong>⚠️ ขาดการได้รับยา Quadruple Therapy ให้ครบ 4 กลุ่ม (ปัจจุบันได้ ${gdmtCount}/4)</strong>
+                    <span class="pearl-text">👉 <span class="action-text">Action:</span> แนะนำให้เริ่มยาในกลุ่มที่ขาด <b>โดยไม่จำเป็นต้องรอให้ยาเดิมถึง Target Dose ก่อน</b></span>
+                    <span class="pearl-text">👉 <em>Rationale:</em> การได้ยาครบทั้ง 4 เสาหลัก (แม้เป็น Low dose) ช่วยลด Mortality ได้ถึง 73% ถือเป็นด่านแรกของการรักษา HFrEF</span>`);
+            }
+
             if (!pregnant) {
                 // SGLT2i
                 if (!onSGLT2I) {
-                    if (egfr > 20 || isNaN(egfr)) gdmt.push(`• <b>SGLT2i:</b> แนะนำเริ่มยา (Empagliflozin/Dapagliflozin 10 mg/วัน) <span class="highlight">Class 1: ลด Hospitalization ถึง 30% โดยไม่ต้อง Titrate</span>`);
-                    else gdmt.push(`• <b>SGLT2i:</b> eGFR <= 20 <u>ยังไม่แนะนำให้เริ่ม</u> ตามแนวทางปัจจุบัน`);
+                    if (egfr > 20 || isNaN(egfr)) {
+                        gdmt.push(`<strong>• SGLT2 Inhibitor</strong>
+                        <span class="pearl-text">👉 <span class="action-text">Action:</span> แนะนำ <b>เริ่มยา Empagliflozin หรือ Dapagliflozin 10 mg/วัน</b> (Class 1)</span>
+                        <span class="pearl-text">👉 <em>Clinical Pearl:</em> ยานี้ลดการนอน รพ. ได้ 30% <b>ไม่ต้องไทเทรตยา</b> ให้ขนาดเดียวจบ และใช้ได้ผลดีเยี่ยมไม่ว่าผู้ป่วยจะเป็นเบาหวานหรือไม่ก็ตาม</span>`);
+                    } else {
+                        gdmt.push(`<strong>• SGLT2 Inhibitor</strong> <br><span class="pearl-text">👉 <b>ไม่แนะนำให้เริ่มยา</b> เนื่องจาก eGFR <= 20 (ตามข้อจำกัดในการศึกษา EMPEROR-Reduced)</span>`);
+                    }
                 }
 
                 // RAASi
                 if (!hasRAASi) {
-                    let arniDose = (egfr < 30 || raasiDose === 'naive') ? '24/26 mg bid (เนื่องจาก eGFR<30 หรือไม่เคยได้ ACEI มาก่อน)' : '49/51 mg bid';
-                    gdmt.push(`• <b>ARNi:</b> แนะนำเริ่มยา (Sacubitril/Valsartan) ขนาด ${arniDose} <span class="highlight">Class 1: ลด Mortality ได้ดีกว่า ACEI</span>`);
+                    let arniDose = (egfr < 30 || raasiDose === 'naive') ? '24/26 mg วันละ 2 ครั้ง' : '49/51 mg วันละ 2 ครั้ง';
+                    gdmt.push(`<strong>• ARNi / ACEi / ARB</strong>
+                        <span class="pearl-text">👉 <span class="action-text">Action:</span> แนะนำ <b>เริ่มยา ARNi (Sacubitril/Valsartan)</b> ขนาดเริ่มต้นที่ ${arniDose} (Class 1)</span>
+                        <span class="pearl-text">👉 <em>Clinical Pearl:</em> ARNi เป็นตัวเลือกแรกที่เหนือกว่า ACEI ในการลด Mortality (ตาม PARADIGM-HF trial)</span>`);
                 } else if (onACEI && (nyha === 2 || nyha === 3)) {
-                    gdmt.push(`• <b>ARNi:</b> พิจารณา <b>เปลี่ยน ACEI เป็น ARNi</b> เพื่อลด Mortality เพิ่มเติม <span class="highlight">ข้อควรระวัง: ต้องหยุด ACEI 36 ชั่วโมงก่อนเริ่ม ARNi ป้องกัน Angioedema</span>`);
+                    gdmt.push(`<strong>• ARNi (Sacubitril/Valsartan)</strong>
+                        <span class="pearl-text">👉 <span class="action-text">Action:</span> พิจารณา <b>เปลี่ยน ACEI เป็น ARNi</b> เพื่อลดอัตราการเสียชีวิตเพิ่มเติม</span>
+                        <span class="pearl-text">👉 <em>Safety:</em> <b>ต้องหยุดยา ACEI เดิมอย่างน้อย 36 ชั่วโมง</b> ก่อนให้ ARNi เพื่อป้องกันภาวะหลอดลมบวม (Angioedema) อย่างเด็ดขาด</span>`);
                 } else if ((raasiDose === 'start' || raasiDose === 'mid') && (sbp >= 100 || isNaN(sbp))) {
-                    gdmt.push(`• <b>RAASi Titration:</b> ขนาดยายังไม่ถึงเป้า และความดันรับได้ -> <b>ปรับเพิ่มทุก 2-4 สัปดาห์</b> สู่ Target dose (ARNi: 97/103 mg bid)`);
+                    gdmt.push(`<strong>• RAASi Titration (การปรับเพิ่มขนาดยา)</strong>
+                        <span class="pearl-text">👉 <span class="action-text">Action:</span> ขนาดยายังไม่ถึงเป้า แนะนำให้ <b>ปรับเพิ่มยาทุก 2-4 สัปดาห์</b> จนถึง Target dose (เช่น ARNi 97/103 mg bid) เพื่อประสิทธิภาพสูงสุด</span>`);
                 }
 
                 // Beta Blocker
                 if (!onBB) {
-                    if (!congestion) gdmt.push(`• <b>Beta-blocker:</b> น้ำไม่เกิน (Dry) -> <b>แนะนำเริ่มยา</b> (Bisoprolol/Carvedilol/Metoprolol suc.) <span class="highlight">Class 1: ลด Mortality ชัดเจน</span>`);
-                    else gdmt.push(`• <b>Beta-blocker:</b> <u>ชะลอการเริ่มยา</u> เนื่องจากผู้ป่วยยังมีภาวะคั่งน้ำ (Congestion)`);
+                    if (!congestion) {
+                        gdmt.push(`<strong>• Beta-blocker (Bisoprolol / Carvedilol / Metoprolol suc.)</strong>
+                            <span class="pearl-text">👉 <span class="action-text">Action:</span> ผู้ป่วยน้ำไม่เกินแล้ว (Dry) <b>แนะนำให้เริ่มยาทันที</b> (Class 1)</span>
+                            <span class="pearl-text">👉 <em>Clinical Pearl:</em> เป็นกลุ่มยาที่ลด Mortality ได้ชัดเจนมาก แต่ห้ามเริ่ม Metoprolol tartrate (ชนิดออกฤทธิ์สั้น) เพราะไม่มีผลการศึกษารองรับในโรค HF</span>`);
+                    } else {
+                        gdmt.push(`<strong>• Beta-blocker</strong> <br><span class="pearl-text">👉 <u>ชะลอการเริ่มยาไว้ก่อน</u> เนื่องจากผู้ป่วยยังมีภาวะคั่งน้ำ (Congestion) อาจทำให้หัวใจบีบตัวลดลงฉับพลันได้</span>`);
+                    }
                 } else if (bbDose === 'start' || bbDose === 'mid') {
-                    if (congestion) gdmt.push(`• <b>Beta-blocker:</b> <u>ห้ามปรับเพิ่มยา (Hold titration)</u> เนื่องจากยังมีภาวะคั่งน้ำ`);
-                    else if (hr >= 60 || isNaN(hr)) gdmt.push(`• <b>Beta-blocker Titration:</b> น้ำไม่เกินและ HR >= 60 -> <b>ปรับเพิ่มยา</b> สู่ Target dose (เช่น Bisoprolol 10 mg)`);
+                    if (congestion) {
+                        gdmt.push(`<strong>• Beta-blocker Titration</strong> <br><span class="pearl-text">👉 <u>ห้ามปรับเพิ่มยา (Hold titration) ในช่วงนี้</u> เนื่องจากผู้ป่วยยังมีภาวะคั่งน้ำ ต้องรอให้ Euvolemic ก่อน</span>`);
+                    } else if (hr >= 60 || isNaN(hr)) {
+                        gdmt.push(`<strong>• Beta-blocker Titration</strong>
+                            <span class="pearl-text">👉 <span class="action-text">Action:</span> น้ำไม่เกินและ HR >= 60 แนะนำ <b>ปรับเพิ่มยาให้ถึง Target dose</b> (เช่น Bisoprolol 10 mg/วัน) เพื่อเพิ่ม LVEF และบรรเทาอาการ</span>`);
+                    }
                 }
 
                 // MRA
                 if (!onMRA) {
-                    if (egfr > 30 && potassium < 5.0) gdmt.push(`• <b>MRA:</b> แนะนำเริ่ม Spironolactone 12.5-25 mg/วัน <span class="highlight">Class 1: ลด Mortality</span>`);
-                    else if (egfr <= 30 || potassium >= 5.0) gdmt.push(`• <b>MRA:</b> <u>ห้ามเริ่มยา</u> เนื่องจาก eGFR <= 30 หรือ K >= 5.0`);
+                    if (egfr > 30 && potassium < 5.0) {
+                        gdmt.push(`<strong>• MRA (Spironolactone / Eplerenone)</strong>
+                            <span class="pearl-text">👉 <span class="action-text">Action:</span> แนะนำ <b>เริ่มยา 12.5-25 mg/วัน</b> (Class 1)</span>
+                            <span class="pearl-text">👉 <em>Clinical Pearl:</em> ยานี้ช่วยลดการตายเฉียบพลัน (Sudden Cardiac Death) ได้อย่างมีนัยสำคัญ และป้องกัน Cardiac fibrosis</span>`);
+                    } else if (egfr <= 30 || potassium >= 5.0) {
+                        gdmt.push(`<strong>• MRA</strong> <br><span class="pearl-text">👉 <u>ห้ามเริ่มยา</u> เนื่องจากผู้ป่วยมี eGFR <= 30 หรือ Potassium >= 5.0 เสี่ยงอันตรายจาก Hyperkalemia</span>`);
+                    }
                 } else {
-                    if (potassium >= 5.5) alerts.push(`<strong>[Alert] MRA & Hyperkalemia:</strong> K ล่าสุด >= 5.5 -> <b>ต้องหยุดยา MRA ทันที</b>`);
-                    else if (mraDose === 'start' && potassium < 5.0 && egfr > 30) gdmt.push(`• <b>MRA Titration:</b> พิจารณาปรับเพิ่มเป็น 25-50 mg/วัน`);
+                    if (potassium >= 5.5) {
+                        alerts.push(`<strong>[Critical Alert] การใช้ MRA ร่วมกับภาวะ Hyperkalemia</strong>
+                            <span class="pearl-text">👉 <span class="action-text">Action:</span> Potassium ล่าสุด >= 5.5 mEq/L <b>ต้องสั่งหยุดยา MRA ทันที</b></span>`);
+                    } else if (mraDose === 'start' && potassium < 5.0 && egfr > 30) {
+                        gdmt.push(`<strong>• MRA Titration</strong> <br><span class="pearl-text">👉 <span class="action-text">Action:</span> พิจารณา <b>ปรับเพิ่มเป็น Target Dose 25-50 mg/วัน</b> เนื่องจากค่าไตและเกลือแร่อยู่ในเกณฑ์ปลอดภัย</span>`);
+                    }
                 }
 
                 // Ivabradine Check
                 if (!onIvabradine && onBB && bbDose === 'target' && hr >= 70 && (nyha === 2 || nyha === 3)) {
-                    gdmt.push(`• <b>Ivabradine:</b> ได้ BB Max dose แต่ HR ยัง >= 70 (Sinus) -> <b>พิจารณาเริ่ม Ivabradine (เริ่ม 5mg bid -> เป้าหมาย 7.5mg bid)</b> <span class="highlight">Class 2a</span>`);
+                    gdmt.push(`<strong>• Ivabradine</strong>
+                        <span class="pearl-text">👉 <span class="action-text">Action:</span> พิจารณา <b>เริ่มยา Ivabradine 5 mg วันละ 2 ครั้ง</b> (Class 2a)</span>
+                        <span class="pearl-text">👉 <em>Clinical Pearl:</em> ใช้ในกรณีที่ผู้ป่วยได้ Beta-blocker ขนาดสูงสุดแล้วแต่ HR ยัง >= 70 bpm (และต้องเป็น Sinus Rhythm เท่านั้น) เพื่อลด HF Hospitalization</span>`);
                 }
             } else {
-                gdmt.push("<i>(ข้ามคำแนะนำการไทเทรต GDMT เนื่องจากข้อห้ามในสตรีมีครรภ์)</i>");
+                gdmt.push("<i>(ข้ามคำแนะนำการจัดยา GDMT ในหมวดนี้ เนื่องจากผู้ป่วยมีข้อห้ามจากการตั้งครรภ์)</i>");
             }
         } else {
-            gdmt.push(`<b>Diagnosis: HFpEF/HFmrEF</b> -> เน้น SGLT2i (Class 1) และคุมอาการบวมด้วย Diuretics`);
+            gdmt.push(`<strong>Diagnosis: HFpEF หรือ HFmrEF (LVEF >= 41%)</strong>
+                <span class="pearl-text">👉 <em>Treatment Goal:</em> การรักษาหลักคือการให้ <b>SGLT2i</b> เพื่อลดการนอน รพ. ร่วมกับการใช้ยาขับปัสสาวะเพื่อลดอาการบวมน้ำ และควบคุมโรคร่วม (Comorbidities) ให้ดี</span>`);
         }
 
-        // --- 6. Logic: Iron Deficiency ---
+        // --- 5. IRON DEFICIENCY ---
         if (ironDef) {
-            gdmt.push(`• <b>Iron Deficiency:</b> มีภาวะขาดธาตุเหล็ก -> พิจารณาให้ <b>IV Iron (ธาตุเหล็กแบบฉีด)</b> <span class="highlight">Class 2a: เพิ่ม Quality of Life (ธาตุเหล็กแบบกินไม่ช่วยเนื่องจากลำไส้บวม)</span>`);
+            gdmt.push(`<strong>• ภาวะขาดธาตุเหล็ก (Iron Deficiency)</strong>
+                <span class="pearl-text">👉 <span class="action-text">Action:</span> พิจารณาให้ <b>ธาตุเหล็กแบบฉีดเข้าเส้นเลือด (IV Iron)</b> เช่น Ferric Carboxymaltose (FCM)</span>
+                <span class="pearl-text">👉 <em>Clinical Pearl:</em> ธาตุเหล็กแบบกิน (Oral iron) มักไม่ได้ผลในโรค HF เนื่องจากลำไส้บวมน้ำทำให้ดูดซึมไม่ได้ การให้ยาฉีดจะช่วยเพิ่มสมรรถภาพการออกกำลังกายและ Quality of life (Class 2a)</span>`);
         }
 
-        // --- 7. Logic: Patient Education (5 ส) ---
-        if (!edSickDay) education.push(`• <b>Sick Day Rules:</b> ให้คำแนะนำการหยุดยาขับปัสสาวะ/SGLT2i ชั่วคราวเมื่อท้องเสียหรือขาดน้ำ ป้องกันไตวาย`);
-        if (!edWeight) education.push(`• <b>Self-Monitoring:</b> แนะนำชั่งน้ำหนักทุกเช้า ถ้าน้ำหนักขึ้น > 2kg ใน 3 วัน หรือเริ่มนอนราบไม่ได้ ให้รีบมาพบแพทย์`);
-        if (!edSodium) education.push(`• <b>Diet:</b> แนะนำจำกัดโซเดียม < 2-3 กรัม/วัน (และจำกัดน้ำเฉพาะในรายที่บวมมากหรือ Na ต่ำ)`);
+        // --- 6. PATIENT EDUCATION ---
+        if (!edSickDay) education.push(`<strong>• กฎเมื่อเจ็บป่วย (Sick Day Rules)</strong> <br><span class="pearl-text">👉 สอนผู้ป่วยให้ <b>หยุดยาขับปัสสาวะ และ SGLT2i ชั่วคราว</b> หากมีอาการท้องเสียรุนแรง อาเจียน หรือขาดน้ำ เพื่อป้องกันภาวะไตวายเฉียบพลัน (AKI)</span>`);
+        if (!edWeight) education.push(`<strong>• การประเมินตนเอง (Self-Monitoring)</strong> <br><span class="pearl-text">👉 แนะนำชั่งน้ำหนักหลังตื่นนอนทุกเช้า ถ้าน้ำหนักขึ้น > 2 กก. ใน 3 วัน หรือเริ่มมีอาการหอบเหนื่อยนอนราบไม่ได้ ให้รีบมาก่อนวันนัด</span>`);
+        if (!edSodium) education.push(`<strong>• การบริโภคอาหาร (Dietary Restrictions)</strong> <br><span class="pearl-text">👉 แนะนำ <b>จำกัดโซเดียม < 2-3 กรัม/วัน</b> (หลีกเลี่ยงน้ำปลา ซีอิ๊ว อาหารหมักดอง) *ส่วนการจำกัดน้ำดื่ม ให้ทำเฉพาะรายที่มีอาการบวมมากหรือมีภาวะ Hyponatremia เท่านั้น</span>`);
         
-        if (education.length === 0) education.push(`✅ ให้คำแนะนำผู้ป่วย (Patient Education) ครบถ้วนแล้ว`);
+        if (education.length === 0) education.push(`✅ <b>ได้รับการประเมินและให้คำแนะนำผู้ป่วย (5 ส) ครบถ้วนสมบูรณ์แล้ว</b>`);
 
-        // --- 8. Logic: Vaccines ---
-        if (!fluVaccine) vaccines.push(`• <b>ไข้หวัดใหญ่ (Influenza):</b> แนะนำให้ฉีดประจำปี`);
-        if (!pneumoVaccine) vaccines.push(`• <b>ปอดอักเสบ (Pneumococcal):</b> แนะนำให้วัคซีน (PCV20 หรือ PCV15+PPSV23)`);
-        if (!covidVaccine) vaccines.push(`• <b>โควิด-19 / RSV:</b> แนะนำให้อัปเดตตามฤดูกาล`);
+        // --- 7. VACCINATIONS ---
+        if (!fluVaccine) vaccines.push(`<strong>• วัคซีนไข้หวัดใหญ่ (Influenza)</strong> <br><span class="pearl-text">👉 แนะนำให้ฉีดปีละ 1 ครั้ง</span>`);
+        if (!pneumoVaccine) vaccines.push(`<strong>• วัคซีนปอดอักเสบ (Pneumococcal)</strong> <br><span class="pearl-text">👉 แนะนำให้วัคซีนชนิด PCV20 1 เข็ม (หรือ PCV15 แล้วตามด้วย PPSV23 ห่าง 1 ปี)</span>`);
+        if (!covidVaccine) vaccines.push(`<strong>• วัคซีนโควิด-19 (COVID-19) / RSV</strong> <br><span class="pearl-text">👉 แนะนำให้อัปเดตวัคซีนตามฤดูกาลหรือตามข้อบ่งชี้</span>`);
         
-        if (vaccines.length === 0) vaccines.push(`✅ ผู้ป่วยได้รับวัคซีนครบถ้วน (ช่วยลดโอกาสกำเริบและอัตราตาย - Class 2a)`);
+        if (vaccines.length === 0) vaccines.push(`✅ <b>ผู้ป่วยได้รับวัคซีนครบถ้วนตามเกณฑ์</b> <br><span class="pearl-text">👉 <em>Clinical Pearl:</em> การฉีดวัคซีนช่วยลดโอกาสที่หัวใจล้มเหลวจะกำเริบจนต้องเข้า รพ. และลดอัตราการเสียชีวิตได้อย่างมีนัยสำคัญ (Class 2a)</span>`);
 
-        // --- 9. Render HTML ---
+        // --- 8. RENDER HTML ---
         let htmlContent = "";
 
         if (alerts.length > 0) {
-            htmlContent += `<h3>🚨 Safety Gatekeeper (ระวังอันตรายจากยา)</h3><ul class="recommendation-list">`;
-            alerts.forEach(item => htmlContent += `<li><span class="alert-text">${item}</span></li>`);
+            htmlContent += `<h3>🚨 ข้อห้ามและยาอันตราย (Safety Gatekeeper)</h3><ul class="recommendation-list">`;
+            alerts.forEach(item => htmlContent += `<li>${item}</li>`);
             htmlContent += `</ul>`;
         }
 
         htmlContent += `<h3>💊 การปรับยาหลัก 4 เสาหลัก (GDMT Optimization)</h3><ul class="recommendation-list">`;
         if (gdmt.length > 0) gdmt.forEach(item => htmlContent += `<li>${item}</li>`);
-        else htmlContent += `<li>ไม่มีข้อเสนอแนะเพิ่มเติมสำหรับยาส่วนนี้</li>`;
+        else htmlContent += `<li>ไม่มีข้อเสนอแนะเพิ่มเติมสำหรับการปรับยา GDMT ในรอบนี้</li>`;
         htmlContent += `</ul>`;
 
         if (volumeMgt.length > 0) {
-            htmlContent += `<h3>💧 การจัดการสารน้ำ (Volume & Diuretics)</h3><ul class="recommendation-list">`;
+            htmlContent += `<h3>💧 การจัดการสารน้ำ (Volume Management)</h3><ul class="recommendation-list">`;
             volumeMgt.forEach(item => htmlContent += `<li>${item}</li>`);
             htmlContent += `</ul>`;
         }
