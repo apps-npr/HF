@@ -69,6 +69,7 @@
             font-size: 16px;
             cursor: pointer;
             transition: background 0.3s;
+            margin-top: 20px;
         }
         button:hover {
             background: #2980b9;
@@ -94,6 +95,26 @@
             margin-bottom: 10px;
             display: block;
         }
+        .dose-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+        .dose-table th, .dose-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .dose-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        .dose-note {
+            font-size: 0.85em;
+            color: #555;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -102,7 +123,7 @@
     <h1>ระบบคัดกรองคลินิกหัวใจล้มเหลว (Pharmacist Assessment)</h1>
     
     <div class="section">
-        <h2>1. ข้อมูลทางคลินิกและข้อควรระวัง (Clinical Parameters & Precautions)</h2>
+        <h2>1. ข้อมูลทางคลินิกและข้อควรระวัง (Clinical Parameters)</h2>
         <div class="grid">
             <div>
                 <label for="lvef">LVEF (%)</label>
@@ -159,16 +180,16 @@
             </div>
             <div>
                 <label>Beta Blocker</label>
-                <div class="checkbox-group"><input type="checkbox" id="bb"> Beta Blocker (Bisoprolol/Carvedilol/Metoprolol)</div>
+                <div class="checkbox-group"><input type="checkbox" id="bb"> Beta Blocker</div>
                 <div class="checkbox-group"><input type="checkbox" id="bb_max"> ทนยาได้ถึง Max dose แล้ว</div>
             </div>
             <div>
                 <label>MRA & SGLT2i</label>
                 <div class="checkbox-group"><input type="checkbox" id="mra"> MRA (Aldactone)</div>
-                <div class="checkbox-group"><input type="checkbox" id="sglt2i"> SGLT2i (Empagliflozin/Dapagliflozin)</div>
+                <div class="checkbox-group"><input type="checkbox" id="sglt2i"> SGLT2i (Empag/Dapag)</div>
             </div>
             <div>
-                <label>ยาที่อาจทำให้ HF แย่ลง (Contraindications)</label>
+                <label>ยาที่อาจทำให้ HF แย่ลง</label>
                 <div class="checkbox-group"><input type="checkbox" id="nsaid"> NSAIDs / COX-2</div>
                 <div class="checkbox-group"><input type="checkbox" id="ndhp"> Diltiazem / Verapamil</div>
                 <div class="checkbox-group"><input type="checkbox" id="doxazosin"> Doxazosin</div>
@@ -182,7 +203,7 @@
         <div class="grid">
             <div class="checkbox-group">
                 <input type="checkbox" id="flu_vaccine">
-                <label for="flu_vaccine">ไข้หวัดใหญ่ (Influenza Vaccine)</label>
+                <label for="flu_vaccine">ไข้หวัดใหญ่ (Influenza Vaccine ปีนี้)</label>
             </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="pneumo_vaccine">
@@ -200,6 +221,63 @@
     <div id="resultArea">
         <h2>ข้อเสนอแนะทางคลินิก (Clinical Recommendations):</h2>
         <ul id="recList" class="recommendation-list"></ul>
+    </div>
+
+    <div class="section" style="margin-top: 30px;">
+        <h2>ตารางอ้างอิงขนาดยา (GDMT Target Doses)</h2>
+        <table class="dose-table">
+            <tr>
+                <th>กลุ่มยา</th>
+                <th>ยา (Medication)</th>
+                <th>Starting Dose</th>
+                <th>Target Dose</th>
+            </tr>
+            <tr>
+                <td>ARNi</td>
+                <td>Sacubitril/Valsartan (Entresto)</td>
+                <td>24/26 mg หรือ 49/51 mg วันละ 2 ครั้ง</td>
+                <td>97/103 mg วันละ 2 ครั้ง</td>
+            </tr>
+            <tr>
+                <td rowspan="2">ACEi/ARB</td>
+                <td>Enalapril</td>
+                <td>2.5 mg วันละ 2 ครั้ง</td>
+                <td>10 - 20 mg วันละ 2 ครั้ง</td>
+            </tr>
+            <tr>
+                <td>Losartan</td>
+                <td>25 - 50 mg วันละ 1 ครั้ง</td>
+                <td>150 mg วันละ 1 ครั้ง</td>
+            </tr>
+            <tr>
+                <td rowspan="3">Beta-blocker</td>
+                <td>Bisoprolol</td>
+                <td>1.25 mg วันละ 1 ครั้ง</td>
+                <td>10 mg วันละ 1 ครั้ง</td>
+            </tr>
+            <tr>
+                <td>Carvedilol</td>
+                <td>3.125 mg วันละ 2 ครั้ง</td>
+                <td>25 mg วันละ 2 ครั้ง (50mg ถ้า นน.>85kg)</td>
+            </tr>
+            <tr>
+                <td>Metoprolol succinate</td>
+                <td>12.5 - 25 mg วันละ 1 ครั้ง</td>
+                <td>200 mg วันละ 1 ครั้ง</td>
+            </tr>
+            <tr>
+                <td>MRA</td>
+                <td>Spironolactone (Aldactone)</td>
+                <td>12.5 - 25 mg วันละ 1 ครั้ง</td>
+                <td>25 - 50 mg วันละ 1 ครั้ง</td>
+            </tr>
+            <tr>
+                <td>SGLT2i</td>
+                <td>Empagliflozin / Dapagliflozin</td>
+                <td>10 mg วันละ 1 ครั้ง</td>
+                <td>10 mg วันละ 1 ครั้ง (ไม่มี Titration)</td>
+            </tr>
+        </table>
     </div>
 </div>
 
@@ -233,105 +311,99 @@
 
         let recommendations = [];
 
-        // 1. ตรวจสอบข้อห้ามเด็ดขาด (Pregnancy Contraindications)
+        // 1. ตรวจสอบข้อห้าม (Pregnancy & Contraindications)
         if (pregnant) {
             let pregContra = [];
             if (onARNI || onACEI || onARB) pregContra.push("RAASi (ARNi/ACEi/ARB)");
             if (onMRA) pregContra.push("MRA");
             if (onSGLT2I) pregContra.push("SGLT2i");
-            
             if (pregContra.length > 0) {
-                recommendations.push(`<span class="alert">ระวัง! ผู้ป่วยตั้งครรภ์ ห้ามใช้ยา: ${pregContra.join(', ')} เนื่องจากมีผลทารกวิรูป (Class 3: Harm) ให้พิจารณาเปลี่ยนเป็น Beta blocker หรือ Hydralazine+Nitrates</span>`);
+                recommendations.push(`<span class="alert">ระวัง! ผู้ป่วยตั้งครรภ์ ห้ามใช้ยา: ${pregContra.join(', ')} (Class 3: Harm) ให้เปลี่ยนเป็น Beta blocker หรือ Hydralazine+Nitrates</span>`);
             }
         }
 
-        // 2. ตรวจสอบยาที่ห้ามใช้ (Contraindications อื่นๆ)
         if (onNSAID || onNDHP || onDoxazosin) {
             let harmfulMeds = [];
             if (onNSAID) harmfulMeds.push("NSAIDs");
             if (onNDHP) harmfulMeds.push("Nondihydropyridine CCBs (Diltiazem/Verapamil)");
             if (onDoxazosin) harmfulMeds.push("Doxazosin");
-            recommendations.push(`<span class="alert">ระวัง! พบการใช้ยาที่อาจทำให้ HF แย่ลง (${harmfulMeds.join(', ')}): พิจารณาหยุดยา หรือปรับเปลี่ยน</span>`);
+            recommendations.push(`<span class="alert">ระวัง! พบยาที่อาจทำให้ HF แย่ลง (${harmfulMeds.join(', ')}): พิจารณาหยุดหรือปรับเปลี่ยน</span>`);
         }
 
-        // 3. การพิจารณาวัคซีน
+        // 2. การพิจารณาวัคซีน
         let missingVaccines = [];
-        if (!fluVaccine) missingVaccines.push("ไข้หวัดใหญ่ (Influenza)");
-        if (!pneumoVaccine) missingVaccines.push("ปอดอักเสบ (Pneumococcal)");
+        if (!fluVaccine) missingVaccines.push("ไข้หวัดใหญ่ (Influenza - แนะนำฉีดซ้ำทุกปี)");
+        if (!pneumoVaccine) {
+            missingVaccines.push("<br><b>- ปอดอักเสบ (Pneumococcal):</b> แนะนำ PCV20 1 เข็ม (หรือให้ PCV15 1 เข็ม แล้วตามด้วย PPSV23 ห่างกัน 1 ปี) ในผู้ป่วย HF ทุกรายที่อายุ >= 65 ปี หรือ 19-64 ปีที่มีโรคประจำตัว");
+        }
         if (!covidVaccine) missingVaccines.push("COVID-19");
         
         if (missingVaccines.length > 0) {
-            recommendations.push(`ผู้ป่วยยังไม่ได้รับวัคซีน: ${missingVaccines.join(', ')} พิจารณาให้วัคซีนเพื่อลด mortality ในผู้ป่วย symptomatic HF (Class 2a)`);
+            recommendations.push(`<b>เรื่องวัคซีน:</b> ผู้ป่วยยังไม่ได้รับ/ขาดข้อมูล ${missingVaccines.join(', ')} พิจารณาให้เพื่อลด Mortality`);
         }
 
-        // 4. การจัดการภาวะคั่งน้ำ และ Iron Deficiency
+        // 3. การจัดการภาวะคั่งน้ำ และ Iron Deficiency
         if (congestion) {
-            recommendations.push("ผู้ป่วยมีภาวะคั่งน้ำ (Congestion): พิจารณาเริ่มหรือปรับเพิ่มขนาดยาขับปัสสาวะ (Loop Diuretics)");
+            recommendations.push("ผู้ป่วยมีภาวะคั่งน้ำ: พิจารณาปรับเพิ่มยาขับปัสสาวะ (Loop Diuretics)");
         }
         if (ironDef) {
-            recommendations.push("ผู้ป่วยมีภาวะขาดธาตุเหล็ก (Iron deficiency): พิจารณาให้ Intravenous iron replacement เพื่อปรับปรุง Functional status และ QOL (Class 2a)");
+            recommendations.push("มีภาวะขาดธาตุเหล็ก: พิจารณาให้ Intravenous iron replacement เพื่อเพิ่ม Functional status (Class 2a)");
         }
 
-        // 5. การประเมินตามกลุ่ม LVEF
+        // 4. การประเมินตามกลุ่ม LVEF
         if (isNaN(lvef)) {
-            recommendations.push("กรุณาระบุค่า LVEF เพื่อประเมิน Guideline Directed Medical Therapy (GDMT)");
+            recommendations.push("กรุณาระบุ LVEF เพื่อประเมิน GDMT");
         } else if (lvef <= 40) {
-            recommendations.push("<b>Diagnosis: HFrEF</b> - เป้าหมายคือ Quadruple Therapy");
+            recommendations.push("<b>Diagnosis: HFrEF</b> - เป้าหมายคือปรับยา Quadruple Therapy ให้ถึง Target Dose");
             
             if (!pregnant) {
-                // เช็ค RAASi (กรณีไม่ตั้งครรภ์)
+                // RAASi
                 if (!onARNI && !onACEI && !onARB) {
-                    recommendations.push("ยังไม่ได้รับยากลุ่ม RAASi: พิจารณาเริ่ม ARNi เป็นตัวเลือกแรก (หรือ ACEi/ARB หากใช้ ARNi ไม่ได้)");
+                    recommendations.push("พิจารณาเริ่ม <b>ARNi</b> (ตัวเลือกแรก) <i>[Start 24/26 หรือ 49/51 mg BID -> Target 97/103 mg BID]</i> หรือ ACEi/ARB หากใช้ ARNi ไม่ได้");
                 } else if ((onACEI || onARB) && (nyha === 2 || nyha === 3)) {
-                    recommendations.push("พิจารณาเปลี่ยน ACEi/ARB เป็น ARNi (Entresto) เพื่อลด Morbidity และ Mortality เพิ่มเติม (หากเปลี่ยนจาก ACEi ต้องหยุดยาเดิม 36 ชม.)");
+                    recommendations.push("พิจารณาเปลี่ยน ACEi/ARB เป็น <b>ARNi (Entresto)</b> <i>[Target 97/103 mg BID]</i> เพื่อลด Mortality เพิ่ม (ระวัง: หยุด ACEi อย่างน้อย 36 ชม. ก่อนเริ่ม ARNi)");
                 }
 
-                // เช็ค MRA
+                // MRA
                 if (!onMRA) {
                     if (isNaN(egfr) || isNaN(potassium)) {
-                        recommendations.push("ไม่พบข้อมูล eGFR หรือ Potassium: กรุณาตรวจเพื่อพิจารณาเริ่มยา MRA (Aldactone)");
+                        recommendations.push("พิจารณาตรวจ eGFR และ K เพื่อพิจารณาเริ่ม <b>MRA (Aldactone)</b>");
                     } else if (egfr > 30 && potassium < 5.0) {
-                        recommendations.push(`eGFR (${egfr}) > 30 และ K (${potassium}) < 5.0: พิจารณาเริ่มยา MRA (Aldactone)`);
-                    } else {
-                        recommendations.push(`eGFR หรือ Potassium ไม่อยู่ในเกณฑ์ปลอดภัยสำหรับการเริ่ม MRA (eGFR > 30, K < 5.0)`);
+                        recommendations.push(`eGFR > 30 และ K < 5.0: พิจารณาเริ่ม <b>MRA (Aldactone)</b> <i>[Start 12.5-25 mg QD -> Target 25-50 mg QD]</i>`);
                     }
-                } else {
-                    if (potassium >= 5.5) {
-                        recommendations.push(`<span class="alert">ระวัง! ผู้ป่วยใช้ MRA แต่ค่า K >= 5.5: พิจารณาหยุดยา MRA ทันที (Class 3: Harm)</span>`);
-                    }
+                } else if (potassium >= 5.5) {
+                    recommendations.push(`<span class="alert">ระวัง! K >= 5.5: พิจารณาหยุด MRA ทันที</span>`);
                 }
 
-                // เช็ค SGLT2i
+                // SGLT2i
                 if (!onSGLT2I) {
                     if (egfr > 20) {
-                        recommendations.push(`eGFR > 20: พิจารณาเริ่ม SGLT2i (Empagliflozin/Dapagliflozin) ไม่ว่าจะเป็นเบาหวานหรือไม่ก็ตาม`);
-                    } else {
-                        recommendations.push(`eGFR <= 20: ยังไม่แนะนำให้เริ่ม SGLT2i (ตามข้อจำกัดของ EMPEROR-Reduced)`);
+                        recommendations.push(`eGFR > 20: พิจารณาเริ่ม <b>SGLT2i</b> <i>[Empagliflozin/Dapagliflozin 10 mg QD - ไม่ต้อง Titrate]</i> ไม่ว่าจะเป็นเบาหวานหรือไม่`);
                     }
                 }
             }
 
-            // เช็ค Beta Blocker
+            // Beta Blocker
             if (!onBB) {
-                recommendations.push("ยังไม่ได้รับ Beta Blocker (Bisoprolol, Carvedilol, Metoprolol succinate): พิจารณาเริ่มยาหากผู้ป่วยไม่มีภาวะน้ำเกินแบบรุนแรง");
+                recommendations.push("พิจารณาเริ่ม <b>Beta Blocker</b> หากไม่มีน้ำเกินรุนแรง <i>[เช่น Bisoprolol start 1.25 mg QD -> Target 10 mg QD หรือ Carvedilol start 3.125 mg BID -> Target 25 mg BID]</i>");
             }
 
-            // เช็ค Ivabradine (ห้ามใช้ในหญิงตั้งครรภ์เช่นกัน)
+            // Ivabradine
             if (!pregnant && onBB && onBBMax && hr >= 70 && (nyha === 2 || nyha === 3)) {
-                recommendations.push(`HR ขณะพัก >= 70 bpm และได้รับ Max dose Beta-blocker: พิจารณาเริ่ม Ivabradine (ต้องเป็น Sinus rhythm)`);
+                recommendations.push(`HR >= 70 bpm (Sinus) และได้ Max dose Beta-blocker: พิจารณาเริ่ม <b>Ivabradine</b> <i>[Start 5 mg BID -> Target 7.5 mg BID]</i>`);
             }
 
         } else if (lvef >= 50) {
             recommendations.push("<b>Diagnosis: HFpEF</b>");
             if (!pregnant && !onSGLT2I) {
-                recommendations.push("พิจารณาเริ่ม SGLT2i เพื่อลดอัตราการนอนโรงพยาบาลจากภาวะหัวใจล้มเหลว (Class 2a)");
+                recommendations.push("พิจารณาเริ่ม <b>SGLT2i</b> <i>[Empagliflozin/Dapagliflozin 10 mg QD]</i> เพื่อลดอัตราการนอนโรงพยาบาล (Class 2a)");
             }
         } else {
             recommendations.push("<b>Diagnosis: HFmrEF (LVEF 41-49%)</b>");
             if (!pregnant && !onSGLT2I) {
-                recommendations.push("พิจารณาเริ่ม SGLT2i เพื่อลดอัตราการนอนโรงพยาบาล (Class 2a)");
+                recommendations.push("พิจารณาเริ่ม <b>SGLT2i</b> <i>[Empagliflozin/Dapagliflozin 10 mg QD]</i> เพื่อลดอัตราการนอนโรงพยาบาล (Class 2a)");
             }
-            recommendations.push("สามารถพิจารณาให้ยาแบบเดียวกับ HFrEF ได้ (โดยเฉพาะหาก LVEF อยู่ค่อนไปทางต่ำ) เช่น ARNi/ACEi/ARB, Beta Blockers, MRAs (Class 2b)");
+            recommendations.push("พิจารณาให้ยาแบบเดียวกับ HFrEF ได้ (ARNi, BB, MRA) เพื่อหวังผลลด Mortality โดยเฉพาะ LVEF ค่อนไปทางต่ำ");
         }
 
         // การแสดงผล
