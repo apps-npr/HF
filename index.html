@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HF Clinic Pharmacist Tool - Nopparat Rajathanee Hospital</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .checkbox-group input {
+            margin-right: 10px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            background: #3498db;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        #resultArea {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e8f6f3;
+            border-left: 5px solid #1abc9c;
+            display: none;
+        }
+        .alert {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .recommendation-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .sub-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>ระบบคัดกรองคลินิกหัวใจล้มเหลว (Pharmacist Assessment)</h1>
+    
+    <div class="section">
+        <h2>1. ข้อมูลทางคลินิกและข้อควรระวัง (Clinical Parameters & Precautions)</h2>
+        <div class="grid">
+            <div>
+                <label for="lvef">LVEF (%)</label>
+                <input type="number" id="lvef" placeholder="เช่น 35">
+            </div>
+            <div>
+                <label for="nyha">NYHA Class</label>
+                <select id="nyha">
+                    <option value="">-- เลือก --</option>
+                    <option value="1">Class I</option>
+                    <option value="2">Class II</option>
+                    <option value="3">Class III</option>
+                    <option value="4">Class IV</option>
+                </select>
+            </div>
+            <div>
+                <label for="hr">Heart Rate (bpm)</label>
+                <input type="number" id="hr" placeholder="ขณะพัก">
+            </div>
+            <div>
+                <label for="egfr">eGFR (mL/min/1.73m²)</label>
+                <input type="number" id="egfr" placeholder="ล่าสุด">
+            </div>
+            <div>
+                <label for="potassium">Potassium (mmol/L)</label>
+                <input type="number" id="potassium" step="0.1" placeholder="ล่าสุด">
+            </div>
+            <div>
+                <label>ภาวะอื่นๆ</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="congestion">
+                    <label for="congestion">มีภาวะคั่งน้ำ (Congestion / Edema)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="iron_def">
+                    <label for="iron_def">ภาวะขาดธาตุเหล็ก (Iron deficiency)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="pregnant">
+                    <label for="pregnant" class="alert">ตั้งครรภ์ หรือ วางแผนตั้งครรภ์</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. รายการยาปัจจุบัน (Current Medications)</h2>
+        <div class="grid">
+            <div>
+                <label>RAASi Group</label>
+                <div class="checkbox-group"><input type="checkbox" id="arni"> ARNi (Entresto)</div>
+                <div class="checkbox-group"><input type="checkbox" id="acei"> ACEi (เช่น Enalapril)</div>
+                <div class="checkbox-group"><input type="checkbox" id="arb"> ARB (เช่น Losartan)</div>
+            </div>
+            <div>
+                <label>Beta Blocker</label>
+                <div class="checkbox-group"><input type="checkbox" id="bb"> Beta Blocker (Bisoprolol/Carvedilol/Metoprolol)</div>
+                <div class="checkbox-group"><input type="checkbox" id="bb_max"> ทนยาได้ถึง Max dose แล้ว</div>
+            </div>
+            <div>
+                <label>MRA & SGLT2i</label>
+                <div class="checkbox-group"><input type="checkbox" id="mra"> MRA (Aldactone)</div>
+                <div class="checkbox-group"><input type="checkbox" id="sglt2i"> SGLT2i (Empagliflozin/Dapagliflozin)</div>
+            </div>
+            <div>
+                <label>ยาที่อาจทำให้ HF แย่ลง (Contraindications)</label>
+                <div class="checkbox-group"><input type="checkbox" id="nsaid"> NSAIDs / COX-2</div>
+                <div class="checkbox-group"><input type="checkbox" id="ndhp"> Diltiazem / Verapamil</div>
+                <div class="checkbox-group"><input type="checkbox" id="doxazosin"> Doxazosin</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. ประวัติการรับวัคซีน (Vaccination Status)</h2>
+        <span class="sub-label">เพื่อลดอัตราการเสียชีวิตในผู้ป่วย Symptomatic HF (Class 2a)</span>
+        <div class="grid">
+            <div class="checkbox-group">
+                <input type="checkbox" id="flu_vaccine">
+                <label for="flu_vaccine">ไข้หวัดใหญ่ (Influenza Vaccine)</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="pneumo_vaccine">
+                <label for="pneumo_vaccine">ปอดอักเสบ (Pneumococcal Vaccine)</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="covid_vaccine">
+                <label for="covid_vaccine">โควิด-19 (COVID-19 Vaccine)</label>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="generateRecommendations()">ประมวลผลข้อเสนอแนะสำหรับแพทย์</button>
+
+    <div id="resultArea">
+        <h2>ข้อเสนอแนะทางคลินิก (Clinical Recommendations):</h2>
+        <ul id="recList" class="recommendation-list"></ul>
+    </div>
+</div>
+
+<script>
+    function generateRecommendations() {
+        const lvef = parseFloat(document.getElementById('lvef').value);
+        const nyha = parseInt(document.getElementById('nyha').value);
+        const hr = parseFloat(document.getElementById('hr').value);
+        const egfr = parseFloat(document.getElementById('egfr').value);
+        const potassium = parseFloat(document.getElementById('potassium').value);
+        
+        const congestion = document.getElementById('congestion').checked;
+        const ironDef = document.getElementById('iron_def').checked;
+        const pregnant = document.getElementById('pregnant').checked;
+
+        const onARNI = document.getElementById('arni').checked;
+        const onACEI = document.getElementById('acei').checked;
+        const onARB = document.getElementById('arb').checked;
+        const onBB = document.getElementById('bb').checked;
+        const onBBMax = document.getElementById('bb_max').checked;
+        const onMRA = document.getElementById('mra').checked;
+        const onSGLT2I = document.getElementById('sglt2i').checked;
+
+        const onNSAID = document.getElementById('nsaid').checked;
+        const onNDHP = document.getElementById('ndhp').checked;
+        const onDoxazosin = document.getElementById('doxazosin').checked;
+
+        const fluVaccine = document.getElementById('flu_vaccine').checked;
+        const pneumoVaccine = document.getElementById('pneumo_vaccine').checked;
+        const covidVaccine = document.getElementById('covid_vaccine').checked;
+
+        let recommendations = [];
+
+        // 1. ตรวจสอบข้อห้ามเด็ดขาด (Pregnancy Contraindications)
+        if (pregnant) {
+            let pregContra = [];
+            if (onARNI || onACEI || onARB) pregContra.push("RAASi (ARNi/ACEi/ARB)");
+            if (onMRA) pregContra.push("MRA");
+            if (onSGLT2I) pregContra.push("SGLT2i");
+            
+            if (pregContra.length > 0) {
+                recommendations.push(`<span class="alert">ระวัง! ผู้ป่วยตั้งครรภ์ ห้ามใช้ยา: ${pregContra.join(', ')} เนื่องจากมีผลทารกวิรูป (Class 3: Harm) ให้พิจารณาเปลี่ยนเป็น Beta blocker หรือ Hydralazine+Nitrates</span>`);
+            }
+        }
+
+        // 2. ตรวจสอบยาที่ห้ามใช้ (Contraindications อื่นๆ)
+        if (onNSAID || onNDHP || onDoxazosin) {
+            let harmfulMeds = [];
+            if (onNSAID) harmfulMeds.push("NSAIDs");
+            if (onNDHP) harmfulMeds.push("Nondihydropyridine CCBs (Diltiazem/Verapamil)");
+            if (onDoxazosin) harmfulMeds.push("Doxazosin");
+            recommendations.push(`<span class="alert">ระวัง! พบการใช้ยาที่อาจทำให้ HF แย่ลง (${harmfulMeds.join(', ')}): พิจารณาหยุดยา หรือปรับเปลี่ยน</span>`);
+        }
+
+        // 3. การพิจารณาวัคซีน
+        let missingVaccines = [];
+        if (!fluVaccine) missingVaccines.push("ไข้หวัดใหญ่ (Influenza)");
+        if (!pneumoVaccine) missingVaccines.push("ปอดอักเสบ (Pneumococcal)");
+        if (!covidVaccine) missingVaccines.push("COVID-19");
+        
+        if (missingVaccines.length > 0) {
+            recommendations.push(`ผู้ป่วยยังไม่ได้รับวัคซีน: ${missingVaccines.join(', ')} พิจารณาให้วัคซีนเพื่อลด mortality ในผู้ป่วย symptomatic HF (Class 2a)`);
+        }
+
+        // 4. การจัดการภาวะคั่งน้ำ และ Iron Deficiency
+        if (congestion) {
+            recommendations.push("ผู้ป่วยมีภาวะคั่งน้ำ (Congestion): พิจารณาเริ่มหรือปรับเพิ่มขนาดยาขับปัสสาวะ (Loop Diuretics)");
+        }
+        if (ironDef) {
+            recommendations.push("ผู้ป่วยมีภาวะขาดธาตุเหล็ก (Iron deficiency): พิจารณาให้ Intravenous iron replacement เพื่อปรับปรุง Functional status และ QOL (Class 2a)");
+        }
+
+        // 5. การประเมินตามกลุ่ม LVEF
+        if (isNaN(lvef)) {
+            recommendations.push("กรุณาระบุค่า LVEF เพื่อประเมิน Guideline Directed Medical Therapy (GDMT)");
+        } else if (lvef <= 40) {
+            recommendations.push("<b>Diagnosis: HFrEF</b> - เป้าหมายคือ Quadruple Therapy");
+            
+            if (!pregnant) {
+                // เช็ค RAASi (กรณีไม่ตั้งครรภ์)
+                if (!onARNI && !onACEI && !onARB) {
+                    recommendations.push("ยังไม่ได้รับยากลุ่ม RAASi: พิจารณาเริ่ม ARNi เป็นตัวเลือกแรก (หรือ ACEi/ARB หากใช้ ARNi ไม่ได้)");
+                } else if ((onACEI || onARB) && (nyha === 2 || nyha === 3)) {
+                    recommendations.push("พิจารณาเปลี่ยน ACEi/ARB เป็น ARNi (Entresto) เพื่อลด Morbidity และ Mortality เพิ่มเติม (หากเปลี่ยนจาก ACEi ต้องหยุดยาเดิม 36 ชม.)");
+                }
+
+                // เช็ค MRA
+                if (!onMRA) {
+                    if (isNaN(egfr) || isNaN(potassium)) {
+                        recommendations.push("ไม่พบข้อมูล eGFR หรือ Potassium: กรุณาตรวจเพื่อพิจารณาเริ่มยา MRA (Aldactone)");
+                    } else if (egfr > 30 && potassium < 5.0) {
+                        recommendations.push(`eGFR (${egfr}) > 30 และ K (${potassium}) < 5.0: พิจารณาเริ่มยา MRA (Aldactone)`);
+                    } else {
+                        recommendations.push(`eGFR หรือ Potassium ไม่อยู่ในเกณฑ์ปลอดภัยสำหรับการเริ่ม MRA (eGFR > 30, K < 5.0)`);
+                    }
+                } else {
+                    if (potassium >= 5.5) {
+                        recommendations.push(`<span class="alert">ระวัง! ผู้ป่วยใช้ MRA แต่ค่า K >= 5.5: พิจารณาหยุดยา MRA ทันที (Class 3: Harm)</span>`);
+                    }
+                }
+
+                // เช็ค SGLT2i
+                if (!onSGLT2I) {
+                    if (egfr > 20) {
+                        recommendations.push(`eGFR > 20: พิจารณาเริ่ม SGLT2i (Empagliflozin/Dapagliflozin) ไม่ว่าจะเป็นเบาหวานหรือไม่ก็ตาม`);
+                    } else {
+                        recommendations.push(`eGFR <= 20: ยังไม่แนะนำให้เริ่ม SGLT2i (ตามข้อจำกัดของ EMPEROR-Reduced)`);
+                    }
+                }
+            }
+
+            // เช็ค Beta Blocker
+            if (!onBB) {
+                recommendations.push("ยังไม่ได้รับ Beta Blocker (Bisoprolol, Carvedilol, Metoprolol succinate): พิจารณาเริ่มยาหากผู้ป่วยไม่มีภาวะน้ำเกินแบบรุนแรง");
+            }
+
+            // เช็ค Ivabradine (ห้ามใช้ในหญิงตั้งครรภ์เช่นกัน)
+            if (!pregnant && onBB && onBBMax && hr >= 70 && (nyha === 2 || nyha === 3)) {
+                recommendations.push(`HR ขณะพัก >= 70 bpm และได้รับ Max dose Beta-blocker: พิจารณาเริ่ม Ivabradine (ต้องเป็น Sinus rhythm)`);
+            }
+
+        } else if (lvef >= 50) {
+            recommendations.push("<b>Diagnosis: HFpEF</b>");
+            if (!pregnant && !onSGLT2I) {
+                recommendations.push("พิจารณาเริ่ม SGLT2i เพื่อลดอัตราการนอนโรงพยาบาลจากภาวะหัวใจล้มเหลว (Class 2a)");
+            }
+        } else {
+            recommendations.push("<b>Diagnosis: HFmrEF (LVEF 41-49%)</b>");
+            if (!pregnant && !onSGLT2I) {
+                recommendations.push("พิจารณาเริ่ม SGLT2i เพื่อลดอัตราการนอนโรงพยาบาล (Class 2a)");
+            }
+            recommendations.push("สามารถพิจารณาให้ยาแบบเดียวกับ HFrEF ได้ (โดยเฉพาะหาก LVEF อยู่ค่อนไปทางต่ำ) เช่น ARNi/ACEi/ARB, Beta Blockers, MRAs (Class 2b)");
+        }
+
+        // การแสดงผล
+        const resultArea = document.getElementById('resultArea');
+        const recList = document.getElementById('recList');
+        recList.innerHTML = '';
+
+        if (recommendations.length > 0) {
+            recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                li.innerHTML = rec;
+                li.style.marginBottom = '10px';
+                recList.appendChild(li);
+            });
+            resultArea.style.display = 'block';
+        } else {
+            recList.innerHTML = '<li>ข้อมูลครบถ้วนและเหมาะสมตาม Guideline ไม่พบประเด็นที่ต้องปรับเปลี่ยน</li>';
+            resultArea.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
