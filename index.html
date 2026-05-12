@@ -14,7 +14,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 1100px;
+            max-width: 1050px;
             margin: auto;
             background: #fff;
             padding: 30px;
@@ -105,7 +105,7 @@
             border: 1px solid #a5d6a7;
             margin-bottom: 15px;
         }
-        button {
+        .primary-btn {
             display: block;
             width: 100%;
             background: #27ae60;
@@ -119,8 +119,25 @@
             transition: background 0.3s;
             margin-top: 20px;
         }
-        button:hover {
+        .primary-btn:hover {
             background: #219653;
+        }
+        .copy-btn {
+            display: block;
+            width: 100%;
+            background: #f39c12;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 20px;
+        }
+        .copy-btn:hover {
+            background: #e67e22;
         }
         #resultArea {
             margin-top: 30px;
@@ -151,6 +168,21 @@
             vertical-align: top;
         }
         .dose-table th { background-color: #34495e; color: white; }
+        
+        /* Flexbox for BP Input */
+        .bp-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .bp-container input {
+            margin-bottom: 0; /* Override default */
+        }
+        .bp-slash {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #555;
+        }
     </style>
 </head>
 <body>
@@ -181,8 +213,12 @@
                 </select>
             </div>
             <div>
-                <label>Systolic BP (mmHg)</label>
-                <input type="number" id="sbp" placeholder="ความดันตัวบน">
+                <label>BP (SBP / DBP mmHg)</label>
+                <div class="bp-container">
+                    <input type="number" id="sbp" placeholder="SBP">
+                    <span class="bp-slash">/</span>
+                    <input type="number" id="dbp" placeholder="DBP">
+                </div>
             </div>
             <div>
                 <label>Heart Rate (bpm)</label>
@@ -286,10 +322,11 @@
         </div>
     </div>
 
-    <button onclick="generateRecommendations()">🔄 ประมวลผลข้อเสนอแนะทางคลินิก</button>
+    <button onclick="generateRecommendations()" class="primary-btn">🔄 ประมวลผลข้อเสนอแนะทางคลินิก</button>
 
     <div id="resultArea">
         <h2 style="text-align:center; color:#27ae60;">📋 รายงานและแผนการดูแล (Pharmacist Intervention Plan)</h2>
+        <button onclick="copyToWorkload()" class="copy-btn">📋 คัดลอกสรุปข้อความสำหรับลง Google Sheet (Workload)</button>
         <div id="recContent"></div>
     </div>
 
@@ -585,6 +622,71 @@
 
         document.getElementById('recContent').innerHTML = htmlContent;
         document.getElementById('resultArea').style.display = 'block';
+    }
+
+    // --- COPY FUNCTION FOR GOOGLE SHEETS ---
+    function copyToWorkload() {
+        const recContent = document.getElementById('recContent');
+        if (!recContent || recContent.innerHTML.trim() === '') {
+            alert('กรุณากด "ประมวลผลข้อเสนอแนะทางคลินิก" ก่อนคัดลอก');
+            return;
+        }
+
+        // 1. Get Vital Signs & Labs
+        const lvef = document.getElementById('lvef').value || '-';
+        const nyha = document.getElementById('nyha').options[document.getElementById('nyha').selectedIndex].text;
+        const sbp = document.getElementById('sbp').value || '-';
+        const dbp = document.getElementById('dbp').value || '-';
+        const hr = document.getElementById('hr').value || '-';
+        const egfr = document.getElementById('egfr').value || '-';
+        const potassium = document.getElementById('potassium').value || '-';
+
+        // 2. Clone the result area to manipulate it
+        let clone = recContent.cloneNode(true);
+        
+        // 3. Remove "Clinical Pearls" to make the text compact for Google Sheet
+        let pearls = clone.querySelectorAll('.pearl-text');
+        pearls.forEach(p => p.remove());
+
+        // 4. Build the summary string
+        let summary = `[Patient Vitals & Labs]\n`;
+        summary += `LVEF: ${lvef}% | NYHA: ${nyha === '-- เลือก --' ? '-' : nyha}\n`;
+        summary += `BP: ${sbp}/${dbp} mmHg | HR: ${hr} bpm\n`;
+        summary += `eGFR: ${egfr} | K: ${potassium}\n`;
+        summary += `\n[Pharmacist Intervention]\n`;
+        
+        // Extract raw text
+        let recText = clone.innerText;
+        // Clean up excessive blank lines
+        recText = recText.replace(/\n\s*\n/g, '\n');
+        
+        summary += recText;
+
+        // 5. Use Clipboard API (Fallback mechanism included)
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(summary).then(() => {
+                alert('📋 คัดลอกข้อมูลสำเร็จ! นำไปวางใน Google Sheet ได้เลย');
+            }).catch(err => {
+                alert('เกิดข้อผิดพลาดในการคัดลอก: ' + err);
+            });
+        } else {
+            // Fallback for older browsers
+            let textArea = document.createElement("textarea");
+            textArea.value = summary;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                alert('📋 คัดลอกข้อมูลสำเร็จ! นำไปวางใน Google Sheet ได้เลย');
+            } catch (err) {
+                alert('เกิดข้อผิดพลาดในการคัดลอก: ' + err);
+            }
+            textArea.remove();
+        }
     }
 </script>
 
