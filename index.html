@@ -151,6 +151,7 @@
             display: none;
         }
         .alert-text { color: #e74c3c; font-weight: bold; }
+        .success-text { color: #27ae60; font-weight: bold; }
         .highlight { background-color: #fff9c4; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
         .pearl-text { color: #16a085; font-size: 0.95em; display: block; margin-top: 5px; padding-left: 25px;}
         .action-text { color: #2980b9; font-weight: bold; }
@@ -225,7 +226,7 @@
                 <div id="div_raasi" class="sub-menu">
                     <select id="sel_raasi_drug" onchange="updateDoseOptions('sel_raasi_drug', 'sel_raasi_dose')">
                         <option value="">-- เลือกตัวยา --</option>
-                        <option value="arni">Entresto 100mg (49/51)</option>
+                        <option value="arni">Entresto FTC 100mg (49/51)</option>
                         <option value="enalapril">Enalapril 5mg, 20mg</option>
                         <option value="losartan">Losartan 50mg</option>
                     </select>
@@ -246,7 +247,7 @@
                         <option value="">-- เลือกตัวยา --</option>
                         <option value="bisoprolol">Bisoprolol 5mg</option>
                         <option value="carvedilol">Carvedilol 6.25mg, 25mg</option>
-                        <option value="metoprolol">Metoprolol tartrate 100mg</option>
+                        <option value="metoprolol">Metoprolol tartrate 100mg (อนุโลมใช้)</option>
                     </select>
                     <div id="wrap_bb_dose" style="display:none;">
                         <label>ขนาดยาปัจจุบัน (Current Dose):</label>
@@ -275,7 +276,7 @@
             <div class="med-row">
                 <label>4. ยาอื่นๆ (Other GDMT & Diuretics)</label>
                 <div class="checkbox-group">
-                    <input type="checkbox" id="chk_sglt2i"> <label>Empagliflozin 10mg (1 tab QD)</label>
+                    <input type="checkbox" id="chk_sglt2i"> <label>Empagliflozin 10mg (1 tab OD)</label>
                 </div>
                 
                 <div class="checkbox-group">
@@ -283,16 +284,19 @@
                 </div>
                 <div id="div_iva" class="sub-menu">
                     <select id="sel_iva_dose">
-                        <option value="start">Low: 2.5 - 5 mg BID (1/2 - 1 เม็ด BID)</option>
-                        <option value="target">Target: 7.5 mg BID (1.5 เม็ด BID)</option>
+                        <option value="none">-- ระบุระดับขนาดยา --</option>
+                        <option value="vlow">Sub-low: 1/2 เม็ด 5mg OD (2.5 mg/day)</option>
+                        <option value="start">Low: 1/2 เม็ด 5mg BID (5 mg/day)</option>
+                        <option value="mid">Mid: 1 เม็ด 5mg BID (10 mg/day)</option>
+                        <option value="target">Target: 1.5 เม็ด 5mg BID (15 mg/day)</option>
                     </select>
                 </div>
 
                 <div class="checkbox-group" style="margin-top:10px;">
-                    <input type="checkbox" id="chk_loop" onchange="toggleSubMenu('chk_loop', 'div_loop')"> <label>Furosemide (10mg, 500mg, ฯลฯ)</label>
+                    <input type="checkbox" id="chk_loop" onchange="toggleSubMenu('chk_loop', 'div_loop')"> <label>Furosemide (40mg, 500mg)</label>
                 </div>
                 <div id="div_loop" class="sub-menu">
-                    <input type="text" id="loop_detail" placeholder="ระบุขนาดยา (เช่น 10mg 1 tab OD)">
+                    <input type="text" id="loop_detail" placeholder="ระบุขนาดยา (เช่น 40mg 1 tab OD)">
                 </div>
             </div>
 
@@ -333,44 +337,109 @@
         <div id="recContent"></div>
     </div>
 
+    <div class="section" style="margin-top: 30px;">
+        <h2>📚 ข้อมูลขนาดยาอ้างอิง (GDMT Reference - 2022 AHA/ACC)</h2>
+        <table class="dose-table">
+            <tr>
+                <th width="20%">กลุ่มยา</th>
+                <th width="40%">ขนาดยา (Starting -> Target Dose)</th>
+                <th width="40%">เกร็ดความรู้ (Clinical Pearls)</th>
+            </tr>
+            <tr>
+                <td><strong>ARNi</strong><br>(Sacubitril/Valsartan)</td>
+                <td>
+                    - <strong>ทั่วไป:</strong> 49/51 mg วันละ 2 ครั้ง<br>
+                    - <strong>เริ่มขนาดต่ำ (24/26 mg วันละ 2 ครั้ง):</strong> ใช้เมื่อ eGFR &lt; 30, ไม่เคยได้ ACEI มาก่อน, หรือเสี่ยง BP ต่ำ<br>
+                    - <strong>เป้าหมาย:</strong> 97/103 mg วันละ 2 ครั้ง
+                </td>
+                <td>หากผู้ป่วยกิน ACEI อยู่ <strong>ต้องหยุดยาเดิมอย่างน้อย 36 ชั่วโมง</strong> ก่อนเริ่ม ARNi เสมอเพื่อป้องกันภาวะหลอดลมบวม (Angioedema)</td>
+            </tr>
+            <tr>
+                <td><strong>ACEi / ARB</strong></td>
+                <td>
+                    - <strong>Enalapril:</strong> 2.5 mg BID -> 10-20 mg BID<br>
+                    - <strong>Losartan:</strong> 25-50 mg QD -> 150 mg QD<br>
+                </td>
+                <td>เป็นทางเลือกเมื่อผู้ป่วยไม่สามารถใช้ ARNi ได้ (เช่น สิทธิการรักษาไม่ครอบคลุม หรือมีข้อห้าม) ประสิทธิภาพในการลด Mortality น้อยกว่า ARNi เล็กน้อย</td>
+            </tr>
+            <tr>
+                <td><strong>Beta-blocker</strong></td>
+                <td>
+                    - <strong>Bisoprolol:</strong> 1.25 mg QD -> 10 mg QD<br>
+                    - <strong>Carvedilol:</strong> 3.125 mg BID -> 25 mg BID (50mg ถ้า นน.&gt;85kg)<br>
+                    - <strong>Metoprolol suc:</strong> 12.5-25 mg QD -> 200 mg QD
+                </td>
+                <td>ต้องเริ่มและปรับยาเมื่อผู้ป่วย <strong>น้ำไม่เกิน (Euvolemic)</strong> เท่านั้น การปรับยาช่วงที่มี Congestion จะทำให้หัวใจบีบตัวแย่ลงเฉียบพลัน</td>
+            </tr>
+            <tr>
+                <td><strong>MRA</strong></td>
+                <td>
+                    - <strong>Spironolactone:</strong> 12.5-25 mg QD -> 25-50 mg QD<br>
+                </td>
+                <td><strong>ห้ามเริ่มยา</strong> หาก eGFR &lt; 30 หรือ Potassium &gt; 5.0 mEq/L เพราะเสี่ยงต่อ Hyperkalemia รุนแรง</td>
+            </tr>
+            <tr>
+                <td><strong>SGLT2i</strong></td>
+                <td>
+                    - <strong>Dapagliflozin / Empagliflozin:</strong> 10 mg วันละ 1 ครั้ง<br>
+                </td>
+                <td><strong>ไม่จำเป็นต้อง Titrate ยา</strong> ให้ขนาดเดียวจบ มีฤทธิ์ขับปัสสาวะอ่อนๆ ระวังการใช้ร่วมกับ Loop diuretic ในช่วงแรก อาจต้องปรับลดยาขับน้ำลงหากคนไข้ Dry</td>
+            </tr>
+            <tr>
+                <td><strong>Ivabradine</strong></td>
+                <td>
+                    - <strong>เริ่ม:</strong> 5 mg วันละ 2 ครั้ง -> <strong>เป้าหมาย:</strong> 7.5 mg วันละ 2 ครั้ง<br>
+                </td>
+                <td>ใช้ได้เฉพาะในผู้ป่วยที่เป็น <strong>Sinus Rhythm</strong> ที่ได้ยา Beta-blocker ขนาดสูงสุดแล้วแต่ Heart Rate ยัง &ge; 70 bpm ยานี้ไม่ช่วยเรื่อง Mortality แต่ช่วยลดการนอน รพ.</td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <script>
     // --- Data Dictionary สำหรับลอจิกขนาดยาตาม Formulary รพ. ---
-    const doseOptions = {
+    const doseSteps = {
         arni: [
-            {val: 'start', text: 'Low: 1/2 เม็ด BID (50 mg/day)'},
-            {val: 'mid', text: 'Mid: 1 เม็ด BID (100 mg/day)'},
-            {val: 'target', text: 'Target: 2 เม็ด BID (200 mg/day)'}
+            {val: 'vlow', text: 'Sub-low: 1/4 เม็ด 100mg BID (50 mg/day)', next: '1/2 เม็ด 100mg BID (100 mg/day)'},
+            {val: 'start', text: 'Low: 1/2 เม็ด 100mg BID (100 mg/day)', next: '1 เม็ด 100mg BID (200 mg/day)'},
+            {val: 'mid', text: 'Mid: 1 เม็ด 100mg BID (200 mg/day)', next: '2 เม็ด 100mg BID (Target 400 mg/day)'},
+            {val: 'target', text: 'Target: 2 เม็ด 100mg BID (400 mg/day)', next: null}
         ],
         enalapril: [
-            {val: 'start', text: 'Low: 2.5 - 5 mg/day (1/2-1 เม็ด 5mg)'},
-            {val: 'mid', text: 'Mid: 5 mg BID (10 mg/day)'},
-            {val: 'target', text: 'Target: 10-20 mg BID (20-40 mg/day)'}
+            {val: 'vlow', text: 'Sub-low: 1/2 เม็ด 5mg OD (2.5 mg/day)', next: '1/2 เม็ด 5mg BID หรือ 1 เม็ด 5mg OD'},
+            {val: 'start', text: 'Low: 1/2 เม็ด 5mg BID (5 mg/day)', next: '1 เม็ด 5mg BID (10 mg/day)'},
+            {val: 'mid', text: 'Mid: 1 เม็ด 5mg BID (10 mg/day)', next: '1/2 - 1 เม็ด 20mg BID (Target)'},
+            {val: 'target', text: 'Target: 1/2 - 1 เม็ด 20mg BID', next: null}
         ],
         losartan: [
-            {val: 'start', text: 'Low: 25 mg/day (1/2 เม็ด 50mg)'},
-            {val: 'mid', text: 'Mid: 50 mg/day (1 เม็ด)'},
-            {val: 'target', text: 'Target: 100-150 mg/day (2-3 เม็ด)'}
+            {val: 'vlow', text: 'Sub-low: 1/4 เม็ด 50mg OD (12.5 mg/day)', next: '1/2 เม็ด 50mg OD (25 mg/day)'},
+            {val: 'start', text: 'Low: 1/2 เม็ด 50mg OD (25 mg/day)', next: '1 เม็ด 50mg OD (50 mg/day)'},
+            {val: 'mid', text: 'Mid: 1 เม็ด 50mg OD (50 mg/day)', next: '2-3 เม็ด 50mg OD (Target 100-150 mg/day)'},
+            {val: 'target', text: 'Target: 2-3 เม็ด 50mg OD', next: null}
         ],
         bisoprolol: [
-            {val: 'start', text: 'Low: 1.25 - 2.5 mg/day (1/4-1/2 เม็ด 5mg)'},
-            {val: 'mid', text: 'Mid: 5 mg/day (1 เม็ด)'},
-            {val: 'target', text: 'Target: 10 mg/day (2 เม็ด)'}
+            {val: 'vlow', text: 'Sub-low: 1/4 เม็ด 5mg OD (1.25 mg/day)', next: '1/2 เม็ด 5mg OD (2.5 mg/day)'},
+            {val: 'start', text: 'Low: 1/2 เม็ด 5mg OD (2.5 mg/day)', next: '1 เม็ด 5mg OD (5 mg/day)'},
+            {val: 'mid', text: 'Mid: 1 เม็ด 5mg OD (5 mg/day)', next: '2 เม็ด 5mg OD (Target 10 mg/day)'},
+            {val: 'target', text: 'Target: 2 เม็ด 5mg OD', next: null}
         ],
         carvedilol: [
-            {val: 'start', text: 'Low: 3.125 - 6.25 mg BID'},
-            {val: 'mid', text: 'Mid: 12.5 mg BID (2 เม็ด 6.25mg)'},
-            {val: 'target', text: 'Target: 25 mg BID (1 เม็ด 25mg BID)'}
+            {val: 'vlow', text: 'Sub-low: 1/2 เม็ด 6.25mg BID (6.25 mg/day)', next: '1 เม็ด 6.25mg BID (12.5 mg/day)'},
+            {val: 'start', text: 'Low: 1 เม็ด 6.25mg BID (12.5 mg/day)', next: '2 เม็ด 6.25mg BID หรือ 1/2 เม็ด 25mg BID (25 mg/day)'},
+            {val: 'mid', text: 'Mid: 2 เม็ด 6.25mg BID (25 mg/day)', next: '1 เม็ด 25mg BID (Target 50 mg/day)'},
+            {val: 'target', text: 'Target: 1 เม็ด 25mg BID', next: null}
         ],
         metoprolol: [
-            {val: 'start', text: 'Low: 12.5 - 25 mg BID (1/4 เม็ด 100mg)'},
-            {val: 'mid', text: 'Mid: 50 mg BID (1/2 เม็ด 100mg)'},
-            {val: 'target', text: 'Target: 100 mg BID (1 เม็ด 100mg)'}
+            {val: 'vlow', text: 'Sub-low: 12.5 mg BID (แบ่งยายาก อนุโลมพิมพ์เป็น mg)', next: '1/4 เม็ด 100mg BID (50 mg/day)'},
+            {val: 'start', text: 'Low: 1/4 เม็ด 100mg BID (50 mg/day)', next: '1/2 เม็ด 100mg BID (100 mg/day)'},
+            {val: 'mid', text: 'Mid: 1/2 เม็ด 100mg BID (100 mg/day)', next: '1 เม็ด 100mg BID (Target 200 mg/day)'},
+            {val: 'target', text: 'Target: 1 เม็ด 100mg BID', next: null}
         ],
         spironolactone: [
-            {val: 'start', text: 'Low: 12.5 mg/day (1/2 เม็ด 25mg)'},
-            {val: 'target', text: 'Target: 25 - 50 mg/day (1-2 เม็ด 25mg)'}
+            {val: 'vlow', text: 'Sub-low: 1/2 เม็ด 25mg วันเว้นวัน', next: '1/2 เม็ด 25mg OD (12.5 mg/day)'},
+            {val: 'start', text: 'Low: 1/2 เม็ด 25mg OD (12.5 mg/day)', next: '1 เม็ด 25mg OD (25 mg/day - Target)'},
+            {val: 'mid', text: 'Mid: 1 เม็ด 25mg OD (25 mg/day - Target)', next: '2 เม็ด 25mg OD (Target 50 mg/day)'},
+            {val: 'target', text: 'Target: 1-2 เม็ด 25mg OD', next: null}
         ]
     };
 
@@ -385,9 +454,13 @@
         const doseSel = document.getElementById(selDoseId);
         const wrapDose = document.getElementById(selDoseId).parentElement;
         
-        doseSel.innerHTML = ''; // Clear old options
-        if (drug && doseOptions[drug]) {
-            doseOptions[drug].forEach(opt => {
+        doseSel.innerHTML = '<option value="none">-- ระบุระดับขนาดยา --</option>'; // Reset options
+        if(drug && (selDrugId === 'sel_raasi_drug')) {
+            doseSel.innerHTML += '<option value="naive">ไม่เคยได้รับยาในกลุ่มนี้มาก่อน</option>';
+        }
+
+        if (drug && doseSteps[drug]) {
+            doseSteps[drug].forEach(opt => {
                 let option = document.createElement("option");
                 option.value = opt.val;
                 option.text = opt.text;
@@ -397,6 +470,17 @@
         } else {
             wrapDose.style.display = 'none';
         }
+    }
+
+    // Helper to find the next titration step based on current dose
+    function getNextStep(drug, currentVal) {
+        if (!doseSteps[drug]) return 'Target dose';
+        const steps = doseSteps[drug];
+        const idx = steps.findIndex(s => s.val === currentVal);
+        if (idx !== -1 && steps[idx].next) {
+            return steps[idx].next;
+        }
+        return 'Target dose (หรือขนาดสูงสุดที่ผู้ป่วยทนได้)';
     }
 
     // --- Main Logic ---
@@ -485,7 +569,7 @@
         // --- 3. VOLUME MANAGEMENT ---
         if (congestion) {
             volumeMgt.push(`<strong>พบภาวะคั่งน้ำ (Congestion / Edema)</strong>
-                <span class="pearl-text">👉 <span class="action-text">Action:</span> พิจารณา ${hasLoop ? '<b>ปรับเพิ่มขนาดยา</b>' : '<b>เริ่มยา</b>'} <b>Loop Diuretic (Furosemide)</b> เพื่อบรรเทาอาการทันที</span>
+                <span class="pearl-text">👉 <span class="action-text">Action:</span> พิจารณา ${hasLoop ? '<b>ปรับเพิ่มขนาดยา</b>' : '<b>เริ่มยา</b>'} <b>Loop Diuretic (Furosemide 40mg/500mg)</b> เพื่อบรรเทาอาการทันที</span>
                 <span class="pearl-text">👉 <em>Monitoring:</em> ประเมิน Urine output ที่ 6 ชม. หากไม่ตอบสนองให้ปรับเพิ่มขนาดยาเป็น 2 เท่า</span>`);
         } else if (hasLoop && sbp < 100) {
             volumeMgt.push(`<strong>ผู้ป่วยไม่มีภาวะคั่งน้ำ (Euvolemic) และ SBP < 100</strong>
@@ -498,7 +582,6 @@
             gdmt.push("<i>⚠️ กรุณาระบุค่า LVEF เพื่อประเมิน GDMT</i>");
         } else if (lvef <= 40) {
             
-            // Check missing pillars
             let gdmtCount = (hasRAASi ? 1 : 0) + (hasBB ? 1 : 0) + (hasMRA ? 1 : 0) + (hasSGLT2i ? 1 : 0);
             if (!pregnant && gdmtCount < 4) {
                 gdmt.push(`<strong>⚠️ ผู้ป่วยยังได้รับยา Quadruple Therapy ไม่ครบ (ได้ ${gdmtCount}/4 กลุ่ม)</strong>
@@ -519,12 +602,11 @@
 
                 // RAASi Logic
                 if (!hasRAASi) {
-                    let arniDose = (egfr < 30) ? '24/26 mg วันละ 2 ครั้ง (เนื่องจาก eGFR<30)' : '49/51 mg วันละ 2 ครั้ง (1/2 เม็ด Entresto 100mg BID)';
+                    let arniDose = (egfr < 30) ? '1/4 เม็ด 100mg BID (เนื่องจาก eGFR<30)' : '1/2 เม็ด 100mg BID';
                     gdmt.push(`<strong>• RAASi Group</strong>
                         <span class="pearl-text">👉 <span class="action-text">Action:</span> แนะนำ <b>เริ่มยา ARNi (Entresto) ${arniDose}</b> เป็นตัวเลือกแรก</span>`);
                 } else {
-                    // Has RAASi - Titration
-                    if (raasiDrug === 'acei' || raasiDrug === 'arb') {
+                    if (raasiDrug === 'enalapril' || raasiDrug === 'losartan') {
                         if (nyha === 2 || nyha === 3) {
                             gdmt.push(`<strong>• RAASi Group (กิน ${raasiDrug.toUpperCase()} อยู่)</strong>
                             <span class="pearl-text">👉 <span class="action-text">Action:</span> พิจารณา <b>เปลี่ยนยาเดิมเป็น ARNi (Entresto)</b> เพื่อลดอัตราเสียชีวิตเพิ่มเติม</span>
@@ -532,16 +614,9 @@
                         }
                     }
                     
-                    if (raasiDose === 'start' || raasiDose === 'mid') {
+                    if (raasiDose === 'vlow' || raasiDose === 'start' || raasiDose === 'mid') {
                         if (sbp >= 100 || isNaN(sbp)) {
-                            let nextStep = '';
-                            if(raasiDrug === 'arni' && raasiDose === 'start') nextStep = '1 เม็ด 100mg BID';
-                            else if(raasiDrug === 'arni' && raasiDose === 'mid') nextStep = '2 เม็ด 100mg BID (Target)';
-                            else if(raasiDrug === 'enalapril' && raasiDose === 'start') nextStep = '5 mg BID (1 เม็ด 5mg BID)';
-                            else if(raasiDrug === 'enalapril' && raasiDose === 'mid') nextStep = '10-20 mg BID (Target)';
-                            else if(raasiDrug === 'losartan' && raasiDose === 'start') nextStep = '50 mg QD (1 เม็ด)';
-                            else if(raasiDrug === 'losartan' && raasiDose === 'mid') nextStep = '100-150 mg QD (Target)';
-
+                            let nextStep = getNextStep(raasiDrug, raasiDose);
                             gdmt.push(`<strong>• RAASi Titration</strong>
                                 <span class="pearl-text">👉 <span class="action-text">Action:</span> ขนาดยายังไม่ถึงเป้า แนะนำให้ <b>ปรับเพิ่มเป็น ${nextStep}</b> เพื่อประสิทธิภาพสูงสุด</span>`);
                         } else {
@@ -559,18 +634,11 @@
                     } else {
                         gdmt.push(`<strong>• Beta-blocker</strong> <br><span class="pearl-text">👉 <u>ชะลอการเริ่มยาไว้ก่อน</u> เนื่องจากผู้ป่วยยังมีภาวะคั่งน้ำ (Congestion) อาจทำให้หัวใจบีบตัวลดลงฉับพลัน</span>`);
                     }
-                } else if (bbDose === 'start' || bbDose === 'mid') {
+                } else if (bbDose === 'vlow' || bbDose === 'start' || bbDose === 'mid') {
                     if (congestion) {
                         gdmt.push(`<strong>• Beta-blocker Titration</strong> <br><span class="pearl-text">👉 <u>ห้ามปรับเพิ่มยา (Hold titration)</u> เนื่องจากยังมีภาวะคั่งน้ำ ต้องรอให้ Euvolemic ก่อน</span>`);
                     } else if (hr >= 60 || isNaN(hr)) {
-                        let nextStep = '';
-                        if(bbDrug === 'bisoprolol' && bbDose === 'start') nextStep = '5 mg/day (1 เม็ด 5mg)';
-                        else if(bbDrug === 'bisoprolol' && bbDose === 'mid') nextStep = '10 mg/day (2 เม็ด 5mg - Target)';
-                        else if(bbDrug === 'carvedilol' && bbDose === 'start') nextStep = '12.5 mg BID (2 เม็ด 6.25mg BID)';
-                        else if(bbDrug === 'carvedilol' && bbDose === 'mid') nextStep = '25 mg BID (Target)';
-                        else if(bbDrug === 'metoprolol' && bbDose === 'start') nextStep = '50 mg BID (1/2 เม็ด 100mg BID)';
-                        else if(bbDrug === 'metoprolol' && bbDose === 'mid') nextStep = '100 mg BID (1 เม็ด 100mg BID - Target)';
-
+                        let nextStep = getNextStep(bbDrug, bbDose);
                         gdmt.push(`<strong>• Beta-blocker Titration</strong>
                             <span class="pearl-text">👉 <span class="action-text">Action:</span> HR รับได้ แนะนำ <b>ปรับเพิ่มยาเป็น ${nextStep}</b> เพื่อเพิ่ม LVEF และลดอัตราตาย</span>`);
                     } else {
@@ -582,7 +650,7 @@
                 if (!hasMRA) {
                     if (egfr > 30 && potassium < 5.0) {
                         gdmt.push(`<strong>• MRA (Spironolactone)</strong>
-                            <span class="pearl-text">👉 <span class="action-text">Action:</span> แนะนำ <b>เริ่มยา 12.5-25 mg/วัน (1/2 - 1 เม็ด 25mg)</b></span>
+                            <span class="pearl-text">👉 <span class="action-text">Action:</span> แนะนำ <b>เริ่มยา 12.5 mg/day (1/2 เม็ด 25mg)</b></span>
                             <span class="pearl-text">👉 <em>Clinical Pearl:</em> ยานี้ช่วยลดการตายกะทันหัน (Sudden Cardiac Death) และ Cardiac fibrosis</span>`);
                     } else if (egfr <= 30 || potassium >= 5.0) {
                         gdmt.push(`<strong>• MRA</strong> <br><span class="pearl-text">👉 <u>ห้ามเริ่มยา</u> เนื่องจากผู้ป่วยมี eGFR <= 30 หรือ K >= 5.0 เสี่ยงอันตรายจาก Hyperkalemia</span>`);
@@ -591,8 +659,9 @@
                     if (potassium >= 5.5) {
                         alerts.push(`<strong>[Critical Alert] การใช้ MRA ร่วมกับภาวะ Hyperkalemia</strong>
                             <span class="pearl-text">👉 <span class="action-text">Action:</span> Potassium ล่าสุด >= 5.5 <b>ต้องสั่งหยุดยา MRA ทันที</b></span>`);
-                    } else if (mraDose === 'start' && potassium < 5.0 && egfr > 30) {
-                        gdmt.push(`<strong>• MRA Titration</strong> <br><span class="pearl-text">👉 <span class="action-text">Action:</span> พิจารณา <b>ปรับเพิ่มเป็น Target Dose (25-50 mg/วัน)</b> ค่าไตและเกลือแร่อยู่ในเกณฑ์ปลอดภัย</span>`);
+                    } else if ((mraDose === 'vlow' || mraDose === 'start' || mraDose === 'mid') && potassium < 5.0 && egfr > 30) {
+                        let nextStep = getNextStep(mraDrug, mraDose);
+                        gdmt.push(`<strong>• MRA Titration</strong> <br><span class="pearl-text">👉 <span class="action-text">Action:</span> พิจารณา <b>ปรับเพิ่มเป็น ${nextStep}</b> ค่าไตและเกลือแร่อยู่ในเกณฑ์ปลอดภัย</span>`);
                     }
                 }
 
@@ -600,10 +669,15 @@
                 if (hasBB && bbDose === 'target' && hr >= 70 && (nyha === 2 || nyha === 3)) {
                     if(!hasIva) {
                         gdmt.push(`<strong>• Ivabradine</strong>
-                            <span class="pearl-text">👉 <span class="action-text">Action:</span> ได้ BB Max dose แต่ HR ยังสูง พิจารณา <b>เริ่ม Ivabradine 5 mg (1 เม็ด BID)</b> (ต้องเป็น Sinus Rhythm)</span>`);
-                    } else if (ivaDose === 'start') {
+                            <span class="pearl-text">👉 <span class="action-text">Action:</span> ได้ BB Max dose แต่ HR ยังสูง พิจารณา <b>เริ่ม Ivabradine 1/2 เม็ด 5mg BID</b> (ต้องเป็น Sinus Rhythm)</span>`);
+                    } else if (ivaDose === 'vlow' || ivaDose === 'start' || ivaDose === 'mid') {
+                        let nextIva = '';
+                        if (ivaDose === 'vlow') nextIva = '1/2 เม็ด 5mg BID (5 mg/day)';
+                        if (ivaDose === 'start') nextIva = '1 เม็ด 5mg BID (10 mg/day)';
+                        if (ivaDose === 'mid') nextIva = '1.5 เม็ด 5mg BID (15 mg/day - Target)';
+
                         gdmt.push(`<strong>• Ivabradine Titration</strong>
-                            <span class="pearl-text">👉 <span class="action-text">Action:</span> HR ยัง >= 70 พิจารณา <b>ปรับเพิ่มเป็น Target 7.5 mg (1.5 เม็ด 5mg BID)</b></span>`);
+                            <span class="pearl-text">👉 <span class="action-text">Action:</span> HR ยัง >= 70 พิจารณา <b>ปรับเพิ่มเป็น ${nextIva}</b></span>`);
                     }
                 }
             }
@@ -687,18 +761,42 @@
 
         // Extract Current Meds for the summary
         let currMeds = [];
-        if(document.getElementById('chk_raasi').checked) currMeds.push(document.getElementById('sel_raasi_drug').options[document.getElementById('sel_raasi_drug').selectedIndex].text);
-        if(document.getElementById('chk_bb').checked) currMeds.push(document.getElementById('sel_bb_drug').options[document.getElementById('sel_bb_drug').selectedIndex].text);
-        if(document.getElementById('chk_mra').checked) currMeds.push(document.getElementById('sel_mra_drug').options[document.getElementById('sel_mra_drug').selectedIndex].text);
+        
+        if(document.getElementById('chk_raasi').checked) {
+            let d = document.getElementById('sel_raasi_drug');
+            let selDose = document.getElementById('sel_raasi_dose');
+            let text = d.options[d.selectedIndex]?.text;
+            let doseText = selDose.options[selDose.selectedIndex]?.text;
+            if(text) currMeds.push(text + (doseText && doseText !== '-- ระบุระดับขนาดยา --' && doseText !== 'ไม่เคยได้รับยาในกลุ่มนี้มาก่อน' ? ' ('+doseText+')' : ''));
+        }
+        if(document.getElementById('chk_bb').checked) {
+            let d = document.getElementById('sel_bb_drug');
+            let selDose = document.getElementById('sel_bb_dose');
+            let text = d.options[d.selectedIndex]?.text;
+            let doseText = selDose.options[selDose.selectedIndex]?.text;
+            if(text) currMeds.push(text + (doseText && doseText !== '-- ระบุระดับขนาดยา --' ? ' ('+doseText+')' : ''));
+        }
+        if(document.getElementById('chk_mra').checked) {
+            let d = document.getElementById('sel_mra_drug');
+            let selDose = document.getElementById('sel_mra_dose');
+            let text = d.options[d.selectedIndex]?.text;
+            let doseText = selDose.options[selDose.selectedIndex]?.text;
+            if(text) currMeds.push(text + (doseText && doseText !== '-- ระบุระดับขนาดยา --' ? ' ('+doseText+')' : ''));
+        }
         if(document.getElementById('chk_sglt2i').checked) currMeds.push('Empagliflozin 10mg');
-        if(document.getElementById('chk_iva').checked) currMeds.push('Ivabradine');
+        
+        if(document.getElementById('chk_iva').checked) {
+            let selDose = document.getElementById('sel_iva_dose');
+            let doseText = selDose.options[selDose.selectedIndex]?.text;
+            currMeds.push('Ivabradine' + (doseText && doseText !== '-- ระบุระดับขนาดยา --' ? ' ('+doseText+')' : ''));
+        }
         if(document.getElementById('chk_loop').checked) currMeds.push('Furosemide ' + document.getElementById('loop_detail').value);
 
         let summary = `[Patient Vitals & Labs]\n`;
         summary += `LVEF: ${lvef}% | NYHA: ${nyha === '-- เลือก --' ? '-' : nyha}\n`;
         summary += `BP: ${sbp}/${dbp} mmHg | HR: ${hr} bpm\n`;
         summary += `eGFR: ${egfr} | K: ${potassium}\n`;
-        summary += `\n[Current Meds]\n${currMeds.length > 0 ? currMeds.join(', ') : 'None'}\n`;
+        summary += `\n[Current Meds]\n${currMeds.length > 0 ? currMeds.join('\n') : 'None'}\n`;
         summary += `\n[Pharmacist Intervention]\n`;
         
         let recText = clone.innerText.replace(/\n\s*\n/g, '\n');
